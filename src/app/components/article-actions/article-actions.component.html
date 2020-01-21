@@ -1,0 +1,75 @@
+<div class="vi-actions">
+  <div class="dropdown" *ngIf="canAddToOurPicks() || canAddToCollections() || canRepost() || canFeatured()">
+    <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+      aria-expanded="true">
+      <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+    </button>
+    <ul class="dropdown-menu"
+      [ngClass]="{'dropdown-menu-left': direction == 'left', 'dropdown-menu-right': direction == 'right'}"
+      aria-labelledby="dropdownMenu1">
+      <li (click)="onAddToOurPicks()" *ngIf="canAddToOurPicks()">
+        Add to Our Picks
+      </li>
+      <li (click)="onRemoveFromOurPicks()" *ngIf="canRemoveFromOurPicks()">
+        Remove from Our Picks
+      </li>
+      <li (click)="onAddToCollections()" *ngIf="canAddToCollections()">
+        Add to Collections
+      </li>
+      <li (click)="onRepost()" *ngIf="canRepost()">
+        Repost
+      </li>
+      <li (click)="onToggleFeatured()" *ngIf="canFeatured() && !article.featured">
+        Mark as featured
+      </li>
+      <li (click)="onToggleFeatured()" *ngIf="canFeatured() && article.featured">
+        Unmark as featured
+      </li>
+    </ul>
+  </div>
+</div>
+
+<ng-template #alertModal>
+  <div class="modal-header">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="alertModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <viidia-alert [showCloseBtn]="false"></viidia-alert>
+  </div>
+</ng-template>
+
+<ng-template #collectionsModal>
+  <div class="modal-header">
+    <h3 class="modal-title">Collections</h3>
+    <div class="vi-modal-description text-center">
+      Please select collections.
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="onCloseCollections()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <viidia-alert></viidia-alert>
+    <form [formGroup]="collectionsForm" (submit)="onCollectionsSubmit()">
+      <div class="form-group" formArrayName="collections">
+        <ul class="list-group" *ngIf="collections?.length > 0">
+          <ng-container *ngFor="let collectionControl of getControls(collectionsForm, 'collections'); let i = index">
+            <li class="list-group-item form-group" *ngIf="collectionControl">
+              <input type="checkbox" [formControl]="collectionControl" value="{{collections[i].id}}" />
+              {{collections[i].name}}
+              <span class="vi-collection-is-private" *ngIf="collections[i].isPrivate">[Private]</span>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary vi-full-control" type="submit">
+          <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isAssigningCollections"></i>
+          Assign
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -1,0 +1,72 @@
+<h1 class="h3">
+    <a [routerLink]="['/photos']">Photos</a>
+    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+    <span>{{photoSet?.name}}</span>
+</h1>
+
+<div class="vi-header-image-scroll vi-menu-bottom-bar">
+    <a [routerLink]="['/']" title="Viidium">
+        <i class="fa fa-home"></i>
+        <div class="vi-ic-text">Home</div>
+    </a>
+
+    <a [routerLink]="['/trending']" title="Trending">
+        <div class="vi-icon-trending"></div>
+        <div class="vi-ic-text">Trending</div>
+    </a>
+
+    <a [routerLink]="['/our-picks']" title="Our Picks">
+        <div class="vi-icon-our-picks"></div>
+        <div class="vi-ic-text">Our Picks</div>
+    </a>
+
+    <a [routerLink]="['/collections']" title="Collections">
+        <div class="vi-icon-collection"></div>
+        <div class="vi-ic-text">Collections</div>
+    </a>
+
+    <a (click)="headerService.toggleSearch()">
+        <i class="fa fa-search"></i>
+        <div class="vi-ic-text">Search</div>
+    </a>
+</div>
+
+<div>
+    <div class="vi-article" *ngIf="photoSet?.sourceArticle">
+        <span>Source Article: </span>
+        <span>
+            <a title="{{photoSet.sourceArticle.name}}"
+                [routerLink]="['/article', photoSet.sourceArticle.id, photoSet.sourceArticle.name | slugify]">
+                {{photoSet.sourceArticle.name}}
+            </a>
+        </span>
+    </div>
+
+    <div class="vi-social-shares" *ngIf="photoSet">
+        <a md-raised-button shareButton="facebook"><i class="fa fa-facebook"></i></a>
+        <a md-raised-button shareButton="twitter"><i class="fa fa-twitter"></i></a>
+        <a md-raised-button href="mailto:?to=&subject=Viidia - {{photoSet.name}}&body={{doc.location.href}}">
+            <i class="fa fa-envelope"></i>
+        </a>
+    </div>
+
+    <div class="vi-gallery" id="gallery" #gallery *ngIf="photoSet">
+        <a href="#" *ngFor="let photo of photoSet.photos" title="{{photoSet.name}}">
+            <img [src]="photo.src" [attr.data-image]="photo.src" [attr.data-description]="photo.alt"
+                  [attr.alt]="photo.title" />
+        </a>
+    </div>
+
+    <div class="vi-pagination clearfix" *ngIf="prevPhotoSet || nextPhotoSet">
+        <div class="pull-left" *ngIf="prevPhotoSet">
+            <a [routerLink]="['/photos', prevPhotoSet.id, prevPhotoSet.name | slugify]" title="{{prevPhotoSet.name}}">
+                <i class="fa fa-chevron-left"></i>
+            </a>
+        </div>
+        <div class="pull-right" *ngIf="nextPhotoSet">
+            <a *ngIf="nextPhotoSet" [routerLink]="['/photos', nextPhotoSet.id, nextPhotoSet.name | slugify]" title="{{nextPhotoSet.name}}">
+                <i class="fa fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+</div>

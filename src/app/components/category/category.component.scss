@@ -1,0 +1,245 @@
+:host {
+  display: block;
+}
+
+.vi-category-block {
+  //height: 200px;
+  position: relative;
+
+  .vi-category-overlay {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    background-image: url(/assets/images/dark_layer.png);
+    background-size: contain;
+  }
+
+  &.vi-active {
+    .vi-category-info {
+      .vi-cat-articles {
+        display: block;
+      }
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      z-index: 1;
+      display: block;
+    }
+  }
+}
+
+.vi-category-cover {
+  position: relative;
+  //height: 100%;
+  min-height: 200px;
+  //display: flex;
+  //align-items: center;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .vi-category-thumb {
+    margin: auto;
+    //margin-top: -120px;
+    position: relative;
+    z-index: 1;
+
+    img {
+      max-width: 350px;
+      max-height: 100px;
+    }
+  }
+}
+
+.vi-cat-more {
+  color: #FFF;
+  font-size: 14px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.vi-category-info {
+  margin-top: -48px;
+  padding-bottom: 27px;
+
+  .vi-cat-articles {
+    margin-top: 40px;
+    display: none;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 100px;
+      transform: skewY(-5deg);
+      background-color: inherit;
+      margin-top: -32px;
+    }
+
+    .vi-container {
+      position: relative;
+      padding: 0 23px 23px 23px;
+      z-index: 1;
+    }
+
+    .vi-header {
+      margin: 5px 0;
+      overflow: hidden;
+      color: #FFF;
+      line-height: 26px;
+
+      .vi-view-all {
+        font-size: 16px;
+        float: left;
+
+        a {
+          color: #FFF;
+        }
+      }
+
+      .vi-recent-posts {
+        float: right;
+        font-size: 26px;
+        text-transform: uppercase;
+      }
+
+      &:after {
+        content: '';
+        clear: both;
+      }
+    }
+
+    .vi-articles {
+      margin-bottom: 0;
+      list-style-type: none;
+      padding: 0;
+      background-color: #FFF;
+    }
+
+    .vi-article {
+      padding: 10px 0 10px 10px;
+      margin: 0 10px;
+      overflow: hidden;
+
+      &-name {
+        margin-top: 0;
+        margin-bottom: 5px;
+
+        a {
+          color: #000;
+        }
+      }
+
+      &-image {
+        min-height: 80px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+
+        .vi-video-play {
+          position: absolute;
+          width: 42px;
+          height: 42px;
+          line-height: 42px;
+          top: 50%;
+          left: 50%;
+          text-align: center;
+          background-color: rgba(0,0,0,0.5);
+          color: #FFF;
+
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+
+          transform: translateX(-50%) translateY(-50%);
+          -webkit-transform: translateX(-50%) translateY(-50%);
+          -moz-transform: translateX(-50%) translateY(-50%);
+        }
+      }
+
+      + .vi-article {
+        border-top: 1px solid #CCC;
+      }
+    }
+  }
+
+  &.vi-expanded {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.vi-cat-less {
+  text-align: center;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #FFF;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vi-triangle {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 18px solid #857c7d;
+}
+
+.vi-video-player {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  align-content: center;
+
+  &-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    color: #FFF;
+  }
+
+  /deep/ {
+    iframe {
+      max-width: 100%;
+    }
+  }
+}
+
+.vi-loading {
+  color: #FFF;
+  margin: 15px 0;
+}

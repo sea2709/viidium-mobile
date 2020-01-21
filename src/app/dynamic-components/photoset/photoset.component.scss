@@ -1,0 +1,42 @@
+.vi-photo-set {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  .vi-photo-set-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #FFF;
+    padding: 15px;
+
+    .vi-photo-set-count {
+      font-size: .75em;
+      margin-top: 5px;
+    }
+  }
+
+  .vi-icon-photo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    -webkit-transform: translateX(-50%) translateY(-100%);
+    -moz-transform: translateX(-50%) translateY(-100%);
+    color: #FFF;
+    font-size: 2em;
+  }
+
+  .vi-photo-set-title {
+    line-height: 1em;
+  }
+}

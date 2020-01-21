@@ -1,0 +1,116 @@
+.vi-collections {
+  list-style-type: none;
+  border: 2.5px solid #FFF;
+
+  .vi-collection {
+    background: #FFF;
+    border: 2.5px solid #FFF;
+    overflow: hidden;
+    background-size: cover;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
+      background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 );
+    }
+
+    &.vi-first {
+      height: 408px;
+      
+      &:before {
+        background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.01) 75%, rgba(0,0,0,0) 76%);
+        background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%,rgba(0,0,0,0.01) 75%,rgba(0,0,0,0) 76%);
+        background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.01) 75%,rgba(0,0,0,0) 76%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=0 );
+      }
+    }
+
+    + .vi-collection {
+      margin-top: 15px;
+    }
+
+    .vi-collection-name {
+      color: #FFF;
+      font-family: 'Roboto Slab';
+      font-weight: 700;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 15px;
+
+      > * {
+        margin: 0;
+      }
+
+      .vi-alt {
+        color: #000;
+      }
+    }
+  }
+
+  .vi-articles {
+    position: relative;
+
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      display: block;
+      background: #FFF;
+      z-index: 1;
+    }
+
+    &:before {
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      margin-left: -2px;
+    }
+
+    &:after {
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 4px;
+      margin-top: -2px;
+    }
+
+    .vi-n-articles {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      line-height: 42px;
+      text-align: center;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      z-index: 2;
+      background: #FFF;
+      border-radius: 50%;
+      font-weight: 700;
+      color: #000;
+      font-size: 1.15em;
+    }
+  }
+
+  .vi-article {
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+.vi-collection-image {
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+}

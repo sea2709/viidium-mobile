@@ -1,0 +1,92 @@
+<div class="vi-form-page">
+    <div class="vi-form-page-header">
+        <h1 class="vi-title h3">Register</h1>
+        <div class="vi-description">Become a user in our community !!!</div>
+    </div>
+    <div class="vi-form-page-body">
+        <div class="alert alert-danger" role="alert" *ngIf="error">
+            {{error.message}}
+        </div>
+        <form [formGroup]="signupForm" (submit)="onSubmit()" *ngIf="isValidRegCode">
+            <div>{{signupForm.errors}}</div>
+            <div class="form-group">
+                <input type="text" id="name" class="form-control" formControlName="name" placeholder="Name*" />
+                <span class="help-block" *ngIf="signupForm.get('name').touched
+                    && signupForm.get('name').invalid && signupForm.get('name').errors['required']">
+                    This field is required!
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="text" id="username" class="form-control" formControlName="username" placeholder="Username*" />
+                <span class="help-block" *ngIf="signupForm.get('username').touched && signupForm.get('username').invalid">
+                    <ng-container *ngIf="signupForm.get('username').errors['required']">
+                        This field is required!
+                    </ng-container>
+                    <ng-container *ngIf="!signupForm.get('username').errors['required'] && signupForm.get('username').errors['valueIsForbidden']">
+                        This username is not available now!
+                    </ng-container>
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" class="form-control" formControlName="email" placeholder="Email*" />
+                <span class="help-block" *ngIf="signupForm.get('email').touched && signupForm.get('email').invalid">
+                    <ng-container *ngIf="signupForm.get('email').errors['required']">This field is required!</ng-container>
+                    <ng-container *ngIf="!signupForm.get('email').errors['required'] && signupForm.get('email').errors['email']">
+                        Please input a valid email!
+                    </ng-container>
+                    <ng-container *ngIf="!signupForm.get('email').errors['required']
+                        && !signupForm.get('email').errors['email'] && signupForm.get('email').errors['valueIsForbidden']">
+                        This email is not available now!
+                    </ng-container>
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" class="form-control" formControlName="password" placeholder="Password*" />
+                <span class="help-block" *ngIf="signupForm.get('password').touched && signupForm.get('password').invalid">
+                    <ng-container *ngIf="signupForm.get('password').errors['required']">
+                        This field is required!
+                    </ng-container>
+                    <ng-container *ngIf="!signupForm.get('password').errors['required'] &&
+                        signupForm.get('password').errors['minlength']">
+                        Password must have at least {{signupForm.get('password').errors['minlength']['requiredLength']}} letters!
+                    </ng-container>
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="password" id="confirm_password" class="form-control" formControlName="confirm_password" placeholder="Confirm Password*" />
+                <span class="help-block" *ngIf="signupForm.get('confirm_password').touched
+                    && signupForm.get('confirm_password').invalid && signupForm.get('confirm_password').errors['required']">
+                    This field is required!
+                </span>
+                <span class="help-block"
+                      *ngIf="signupForm.get('confirm_password').touched && signupForm.get('confirm_password').valid
+                        && signupForm.invalid && signupForm.errors['mismatch']">
+                    Confirm password does not match!
+                </span>
+            </div>
+            <div class="form-group">
+                <textarea id="description" class="form-control" formControlName="description" placeholder="Say about yourself"></textarea>
+            </div>
+            <div class="form-group" formArrayName="topics">
+                <label>Interesting Topics</label>
+                <ul class="vi-checkboxes">
+                    <ng-container *ngFor="let topicControl of getControls(signupForm, 'topics'); let i = index">
+                        <li class="form-group">
+                            <input type="checkbox" [formControl]="topicControl"/> {{topics[i].name}}
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary vi-full-control" type="submit" [disabled]="!signupForm.valid || signupForm.untouched">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isLoading"></i>
+                    Submit
+                </button>
+            </div>
+        </form>
+
+        <div class="alert alert-danger" role="alert" *ngIf="!isValidRegCode">
+            {{invalidRegCodeMsg}}
+        </div>
+    </div>
+</div>

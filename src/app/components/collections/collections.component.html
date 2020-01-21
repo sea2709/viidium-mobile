@@ -1,0 +1,52 @@
+<div class="vi-collections" *ngIf="collections">
+  <div class="row no-gutters">
+    <ng-container *ngFor="let collection of collections; first as isFirst">
+    <a *ngIf="collection" title="{{collection.name}}" [routerLink]="['/collections', collection.id, collection.name | slugify]">
+      <ng-container *ngIf="isFirst && isCollectionPage">
+        <div class="col-12 col-xs-12 vi-collection vi-first" [ngStyle]="{
+                        'background-image': 'url(' + (collection.image ? collection.image : '') + ')'
+                    }">
+          <div class="vi-collection-name">
+            <h3 class="h5" [ngClass]="{'vi-alt': !collection.image}">
+              {{collection.name}}
+              <span class="vi-collection-is-private" *ngIf="collection.isPrivate">[Private]</span>
+            </h3>
+          </div>
+        </div>
+      </ng-container>
+
+      
+      <ng-container *ngIf="!(isFirst && isCollectionPage) && view === 'thumbnail'">
+        <div class="col-6 col-xs-6 vi-collection" [ngStyle]="{
+                            'height': collectionWidth ? collectionWidth + 'px': 'inherit',
+                            'background-image': 'url(' + (collection.image ? collection.image : '') + ')'
+                        }">
+          
+          <div class="vi-collection-name">
+            <h3 class="h5">
+              {{collection.name}}
+              <span class="vi-collection-is-private" *ngIf="collection.isPrivate">[Private]</span>
+            </h3>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!(isFirst && isCollectionPage) && view === 'list'">
+        <div class="row no-gutters">
+          <div class="col-xs-3">
+            <div class="vi-collection-image" [ngStyle]="{'background-image': 'url(' + (collection.image ? collection.image : '') + ')'}">
+            </div>
+          </div>
+          <div class="col-xs-9">
+            <div class="vi-collection-name">
+              {{collection.name}}
+              <span class="vi-collection-is-private" *ngIf="collection.isPrivate">[Private]</span>
+            </div>
+            <div class="vi-collection-body" [innerHTML]="collection.body"></div>
+          </div>
+        </div>
+      </ng-container>
+    </a>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<latest-articles [groups]="groups" [categories]="categories"></latest-articles>
+
+<div class="vi-header-image-scroll vi-menu-bottom-bar">
+    <a title="{{article.name}}" *ngIf="article" [routerLink]="['/article', article.id, article.name | slugify]">
+        <div class="vi-icon-articles"></div>
+        <div class="vi-ic-text">Featured</div>
+    </a>
+
+    <a [routerLink]="['/categories']" title="Categories">
+        <div class="vi-icon-categories"></div>
+        <div class="vi-ic-text">Categories</div>
+    </a>
+
+    <a [routerLink]="['/videos']" title="Videos">
+        <div class="vi-icon-video"></div>
+        <div class="vi-ic-text">Videos</div>
+    </a>
+
+    <a [routerLink]="['/photos']" title="Photos">
+        <div class="vi-icon-photo"></div>
+        <div class="vi-ic-text">Photos</div>
+    </a>
+
+    <a (click)="toggleSearch($event)">
+        <i class="fa fa-search"></i>
+        <div class="vi-ic-text">Search</div>
+    </a>
+</div>

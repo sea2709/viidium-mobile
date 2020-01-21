@@ -1,0 +1,20 @@
+<div class="vi-people-are-reading-articles">
+    <h3 class="vi-header text-center h4" [ngStyle]="{'color': article.category.color}">
+        People Are Reading
+    </h3>
+
+    <div class="vi-articles">
+        <ul class="vi-articles-wrapper" *ngFor="let article of trendingArticles; let index = index">
+            <li class="text-center">
+                <h4 class="vi-article-name h5">
+                    <a title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                        {{article.name}}
+                    </a>
+                </h4>
+                <div class="vi-article-source">
+                    <span>{{article.articleSource?.name}}</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

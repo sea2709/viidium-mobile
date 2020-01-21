@@ -1,0 +1,110 @@
+<ng-template [ngIf]="category?.articles">
+    <div #categoryHeader class="vi-categories-header" *ngIf="category.articles[0]?.image"
+        [ngStyle]="{'background-image': 'url(' + category.articles[0].image + ')'}">
+        <img [src]="category.whiteThumbnail" alt="{{category.name}}" />
+    </div>
+
+    <div class="vi-articles-wrapper" infinite-scroll (scrolled)="onScrollDown()">
+        <div *ngFor="let article of category.articles; let index = index">
+            <div *ngIf="index == 0" class="vi-article vi-featured-article">
+                <div class="vi-article-cover vi-first" [ngStyle]="{'background-image': 'url(' + article.image + ')'}">
+                    <img [src]="category.whiteThumbnail" alt="{{category.name}}" />
+                </div>
+                <div class="vi-article-wrapper">
+                    <div class="vi-article-source">
+                        {{article.articleSource?.name}}
+                    </div>
+                    <h3 class="vi-article-name h4">
+                        <a title="{{article.name}}" (click)="viewArticleDetails()"
+                            [routerLink]="['/article', article.id, article.name | slugify]">
+                            {{article.name}}
+                        </a>
+                    </h3>
+                    <ul class="vi-article-tags" *ngIf="article.tags?.length > 0">
+                        <li *ngFor="let tag of article.tags">
+                            <a [routerLink]="['/search']" [queryParams]="{t: tag.name}">{{tag.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div *ngIf="index > 0" class="vi-article">
+                <div class="vi-article-cover" [ngStyle]="{'background-image': 'url(' + article.image + ')'}">
+                    <div *ngIf="article.videoHtml" class="vi-video-play" (click)="videoPlayerService.showVideoPlayer(article.videoHtml)">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </div>
+                </div>
+                <div class="vi-article-wrapper">
+                    <div class="vi-article-source">{{article.articleSource?.name}}</div>
+                    <h3 class="vi-article-name h4">
+                        <a title="{{article.name}}" (click)="viewArticleDetails()"
+                            [routerLink]="['/article', article.id, article.name | slugify]">
+                            {{article.name}}
+                        </a>
+                    </h3>
+                    <ul class="vi-article-tags" *ngIf="article.tags?.length > 0">
+                        <li *ngFor="let tag of article.tags">
+                            <a [routerLink]="['/search']" [queryParams]="{t: tag.name}">{{tag.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vi-load-more" *ngIf="isLoading">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        Loading more items ...
+    </div>
+
+    <div #articleBottomBar class="vi-menu-bottom-bar">
+        <a [routerLink]="['/']" title="Viidium">
+            <i class="fa fa-home"></i>
+            <div class="vi-ic-text">Home</div>
+        </a>
+        <a (click)="highlightsState = 'active'" *ngIf="todayGroup" class="vi-icon">
+            <i class="vi-icon-our-picks" aria-hidden="true"></i>
+            <div class="vi-ic-text">Our Picks</div>
+        </a>
+        <a (click)="categoriesState = 'active'" *ngIf="categories" class="vi-icon">
+            <i class="vi-icon-categories" aria-hidden="true"></i>
+            <div class="vi-ic-text">Categories</div>
+        </a>
+        <a (click)="collectionsState = 'active'" class="vi-icon">
+            <i class="vi-icon-collection" aria-hidden="true"></i>
+            <div class="vi-ic-text">Collection</div>
+        </a>
+        <a (click)="headerService.toggleSearch()">
+            <i class="fa fa-search"></i>
+            <div class="vi-ic-text">Search</div>
+        </a>
+    </div>
+
+    <div class="vi-swipeup-lightbox" *ngIf="categories"
+        [ngClass]="{'vi-active': categoriesState === 'active'}" [@swipeUpState]="categoriesState">
+        <div class="vi-close-btn" (click)="categoriesState = 'inactive'">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <div class="vi-categories">
+            <ng-container *ngFor="let cat of categories">
+                <category [category]="cat" *ngIf="cat?.articles"></category>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="vi-swipeup-lightbox" [ngClass]="{'vi-active': collectionsState === 'active'}"
+        [@swipeUpState]="collectionsState">
+        <div class="vi-close-btn" (click)="collectionsState = 'inactive'">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <collections></collections>
+    </div>
+
+    <div class="vi-swipeup-lightbox" *ngIf="todayGroup"
+        [ngClass]="{'vi-active': highlightsState === 'active'}" [@swipeUpState]="highlightsState">
+        <div class="vi-close-btn" (click)="highlightsState = 'inactive'">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <group [groups]="[todayGroup]" [maximumHighlights]="0" *ngIf="todayGroup"></group>
+    </div>
+</ng-template>

@@ -1,0 +1,89 @@
+:host {
+    background-color: #305e6c; color:#fff;
+    position: relative;
+    display: block;
+
+    .vi-article-footer-inner {
+      padding: 15px;
+    }
+  
+    .vi-logo {
+      margin-bottom: 10px;
+      filter: grayscale(100%);
+  
+      a {
+        display:inline-flex;
+        align-items: center;
+  
+        .vi-icon-mascot {
+          font-size:50px;
+          padding-bottom: 5px;
+        }
+  
+        img {
+          max-width: 120px;
+        }
+      }
+    }
+  
+    .vi-social {
+      display:flex;
+      align-items: center;
+      margin-bottom: 10px;
+  
+      .vi-sub-header {
+        margin-right: 10px;
+      }
+  
+      .vi-social-icons {
+        a {
+          display:inline-block; color:#305e6c;
+          width:30px; height:30px; line-height: 30px;
+          background-color: #fff; margin-right: 10px;
+          border-radius: 50%;
+          text-align: center;
+        }
+      }
+    }
+  
+    .vi-menu {
+      display:flex;
+      flex-wrap:wrap;
+  
+      li {
+        width:33.33%;
+        position: relative;
+  
+        &:before {
+          content:''; display: block;
+          position: absolute;
+          bottom:0; left:0;
+          width:100%; height:1px; opacity:.8;
+          background: linear-gradient(to right, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 59%, rgba(255, 255, 255, 0) 76%);
+        }
+  
+        a {
+          color:#fff; font-size: 15px;
+          display:inline-block;
+          padding:8px 0;
+          opacity:.8;
+        }
+      }
+  
+      li:nth-last-child(-n+3) {
+        &:before {
+          display:none;
+        }
+      }
+    }
+  
+    .vi-contact-us {
+      font-size: 10px;
+      text-align:center;
+      padding: 10px 15px 25px;
+  
+      a {
+        color:#fff;
+      }
+    }
+  }

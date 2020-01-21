@@ -1,0 +1,66 @@
+<div class="vi-article-wrapper">
+    <article-header [article]="article"></article-header>
+
+    <div class="vi-article-top-info text-center">
+        <div class="vi-article-top-wrapper">
+            <div class="vi-category-thumb">
+                <a title="{{article.category.name}}"
+                    [routerLink]="['/categories', article.category.id, article.category.name | slugify]">
+                    <img [src]="article.category.thumbnail"/>
+                </a>
+            </div>
+            <div class="vi-article-top-bg">
+                <div class="vi-article-title">
+                    <h1 class="h3">{{article.name}}</h1>
+                </div>
+
+                <div class="vi-article-image"
+                     [ngStyle]="{'background-image': 'url(' + (article.teaserImage ? article.teaserImage : '') + ')'}">
+                    <div *ngIf="article.videoHtml" class="vi-video-play"
+                         (click)="videoPlayerService.showVideoPlayer(article.videoHtml)">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </div>
+                    <div class="vi-nav-article vi-prev-article" *ngIf="previousArticle">
+                        <a title="{{previousArticle.name}}"
+                            [routerLink]="['/article', previousArticle.id, previousArticle.name | slugify]">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="vi-nav-article vi-next-article" *ngIf="nextArticle">
+                        <a title="{{nextArticle.name}}" [routerLink]="['/article', nextArticle.id, nextArticle.name | slugify]">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="vi-article-description">
+            {{article.summary}}
+        </h4>
+
+        <div class="vi-created-date">{{article.createdDate | date: 'MMMM d, y'}}</div>
+
+        <ng-container *ngIf="article.externalReferral">
+            <div class="vi-article-redirect text-center">
+                <a title="{{article.name}}" [href]="article.sourceUrl">
+                    Click here to redirect to {{article.articleSource.name}} to view this article
+                </a>
+            </div>
+        </ng-container>
+
+        <div class="vi-article-source" *ngIf="article.articleSource?.name">
+            Source: <span>{{article.articleSource.name}}</span>
+        </div>
+    </div>
+
+    <ng-container *ngIf="!article.externalReferral">
+        <div class="vi-article-body">
+            <runtime-content [template]="article.processed"></runtime-content>
+        </div>
+
+        <div class="vi-article-source-url" *ngIf="article.sourceUrl">
+            Source URL : <a title="{{article.name}}" href="{{article.sourceUrl}}">{{article.sourceUrl}}</a>
+        </div>
+    </ng-container>
+</div>

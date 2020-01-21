@@ -1,0 +1,33 @@
+<ul class="vi-articles" infinite-scroll (scrolled)="onScrollDown()">
+    <li *ngFor="let article of articles; index as i">
+        <div class="row no-gutters vi-flex">
+                <div class="col-3 col-xs-3 vi-article-image" [ngStyle]="{'background-image': 'url(' + article.image + ')'}">
+                    <div class="vi-article-index">
+                        <div class="vi-index">{{i + 1}}</div>
+                    </div>
+                </div>
+                <div class="col-9 col-xs-9">
+                    <div class="vi-article-wrapper">
+                        <h2 class="vi-article-name h6">
+                            <a [routerLink]="['/article', article.id, article.name | slugify]">
+                                {{article.name}}
+                            </a>
+                        </h2>
+
+                        <div class="vi-article-source">{{article.articleSource?.name}}</div>
+
+                        <ul class="vi-article-badges" *ngIf="showStatus">
+                            <li *ngIf="article.curatedByUserId === user.id">Curated</li>
+                            <li *ngIf="article.publishedByUserId === user.id">Published</li>
+                            <li *ngIf="article.contributedByUserId === user.id">Contributed</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </li>
+</ul>
+
+<div class="vi-load-more" *ngIf="isLoading">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+    Loading more items ...
+</div>

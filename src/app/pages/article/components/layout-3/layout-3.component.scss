@@ -1,0 +1,297 @@
+@import "~variables.scss";
+
+.vi-category-thumb {
+  text-align: center;
+  margin: $article-padding 0;
+
+  img {
+    max-width: 350px;
+  }
+}
+
+.vi-article-title {
+  border-top: 2px solid #000;
+  margin-top: $article-padding;
+  font-family: 'Roboto Slab';
+  font-weight: 700;
+
+  h1 {
+    margin-top: 10px;
+    font-weight: 700;
+  }
+}
+
+.vi-article-source {
+  margin: $article-padding 0;
+  font-style: oblique;
+
+  span {
+    color: #05dce9;
+    font-style: normal;
+    font-weight: 700;
+  }
+}
+
+.vi-article-image {
+  height: 260px;
+  margin-left: -$article-padding;
+  margin-right: -$article-padding;
+  position: relative;
+
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+  }
+
+  &:before {
+    left: 0;
+
+    background: -moz-linear-gradient(left, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to right, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 );
+  }
+
+  &:after {
+    right: 0;
+
+    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=1 );
+  }
+
+  .vi-nav-article {
+    position: absolute;
+    top: 50%;
+    font-size: 24px;
+    z-index: 2;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    height: 100%;
+    width: 50%;
+
+    a {
+      color: #FFF;
+    }
+
+    &.vi-prev-article {
+      left: 0;
+
+      i:before {
+        left:10px;
+      }
+    }
+
+    &.vi-next-article {
+      right: 0;
+
+      i:before {
+        right:10px;
+      }
+    }
+
+    i {
+      display: block;
+      width: 100%;
+      height: 100%;
+      -webkit-transition:all .3s ease;
+      -o-transition:all .3s ease;
+      transition:all .3s ease;
+
+      &:before {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+      }
+
+      &:hover {
+        background-color: rgba(0,0,0,.2);
+      }
+    }
+  }
+}
+
+.vi-article-description {
+  margin: $description-padding 0;
+  color: #000;
+
+  &.vi-bg-gradient {
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 75%);
+      background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 75%);
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 75%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 );
+    }
+  }
+}
+
+.vi-article-date-share {
+  margin: 10px 0;
+  line-height: 36px;
+}
+
+.vi-article-body {
+  border-top: 2px solid #186aa8;
+  padding: 10px 0;
+
+  ::ng-deep {
+    iframe {
+      max-width: 100%;
+    }
+  }
+}
+
+.vi-article-header-info {
+  position: relative;
+  background: #FFF;
+  margin-left: -$article-padding;
+  margin-right: -$article-padding;
+  overflow: hidden;
+  line-height: 46px;
+  height: 46px;
+  border-bottom: 1px solid #CCC;
+
+  .vi-article-thumb {
+    width: 46px;
+    height: 46px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .vi-social-shares {
+    background: #FFF;
+
+    > a {
+      border-radius: 0;
+      border: none;
+      border-left: 1px solid #CCC;
+      color: #000;
+      width: 46px;
+      height: 46px;
+      line-height: 46px;
+      margin: 0;
+      display: block;
+      float: left;
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+
+  .vi-article-title {
+    font-family: 'Roboto Slab';
+    white-space: nowrap;
+    width: calc(100% - 184px);
+    padding: 0 5px;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    margin-top: 0;
+
+    > * {
+      line-height: 46px;
+    }
+
+    h1 {
+      font-weight: 700;
+    }
+
+    h5 {
+      margin: 0;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 50%;
+      background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+      background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 );
+    }
+  }
+
+  &.vi-fixed-1, &.vi-fixed-2 {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  &.vi-fixed-1 {
+    top: 79px;
+  }
+
+  &.vi-fixed-2 {
+    top: 39px;
+  }
+}
+
+.vi-article-bottom {
+  padding: $article-padding;
+  margin-left: -$article-padding;
+  margin-right: -$article-padding;
+  margin-top: $article-padding;
+  position: relative;
+  background: #FFF;
+  line-height: 36px;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    height: 2px;
+    width: 50px;
+    background: #186aa8;
+  }
+
+  .vi-social-shares {
+    a {
+      color: #000;
+    }
+  }
+}
+
+.vi-social-shares {
+  > a {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    display: inline-block;
+    border: 1px solid #CCC;
+    color: #000;
+    margin: 0 5px;
+    text-align: center;
+    font-size: 18px;
+
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+  }
+}
+
+.vi-article-redirect {
+  padding: 0 0 20px;
+}

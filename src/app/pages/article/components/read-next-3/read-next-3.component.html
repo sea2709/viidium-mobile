@@ -1,0 +1,51 @@
+<div class="vi-read-next-wrapper" *ngIf="article">
+    <h3 class="vi-header text-center h4">
+        Read Next
+    </h3>
+    <div class="vi-article-image" [ngStyle]="{'background-image': 'url(' + (article.teaserImage ? article.teaserImage : '') + ')'}">
+        <div class="vi-article-category" [ngStyle]="{'background-color': article.category.color}" *ngIf="article?.category">
+            <a title="{{article.category.name}}"
+                [routerLink]="['/categories', article.category.id, article?.category.name | slugify]">
+                {{article.category.name}}
+            </a>
+        </div>
+
+        <div class="vi-article-bottom-info">
+            <div class="container">
+                <div class="row">
+                    <div class="col-10 col-xs-10">
+                        <div class="row">
+                            <div class="vi-article-title">
+                                <h3 class="h4">
+                                    <a title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                                        {{article.name}}
+                                    </a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="vi-article-source">{{article.articleSource?.name}}</div>
+                </div>
+                <div class="row">
+                    <div class="clearfix vi-created-date-share">
+                        <div class="pull-left">
+                            <div class="vi-created-date">{{article.createdDate | date: 'MMMM d, y'}}</div>
+                        </div>
+                        <div class="pull-right">
+                            <div class="vi-share">
+                                <shares [article]="article"></shares>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="article.videoHtml" class="vi-video-play"
+                 (click)="videoPlayerService.showVideoPlayer(article.videoHtml)">
+                <span class="glyphicon glyphicon-play"></span>
+            </div>
+        </div>
+    </div>
+</div>

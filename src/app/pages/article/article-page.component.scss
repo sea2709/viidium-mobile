@@ -1,0 +1,169 @@
+@import "~variables.scss";
+
+.vi-article-wrapper {
+  padding: 0 $article-padding;
+  overflow: hidden;
+}
+
+.vi-article-bottom-info {
+  background: #FFF;
+  position: relative;
+  margin-left: -$article-padding;
+  margin-right: -$article-padding;
+  padding: $article-padding;
+}
+
+.vi-more {
+  position: relative;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-top: -1px;
+  background: #FFF;
+  padding: 15px;
+
+  .vi-more-label {
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  ul {
+    padding-left: 0;
+    display: inline-block;
+    margin-bottom: 0;
+
+    li {
+      display: inline-block;
+      list-style: none;
+      font-size: 11px;
+      padding: 5px 10px;
+      margin-right: 5px;
+      border: 2px solid #000;
+      text-transform: uppercase;
+      font-weight: 700;
+
+      a {
+        color: #000;
+      }
+    }
+  }
+}
+
+iframe.vi-frame {
+  width: calc(100% + 40px);
+  margin-left: -20px;
+  margin-right: -20px;
+  height: calc(100vh - 38px);
+  border: 1px solid #CCC;
+}
+
+::ng-deep {
+  .vi-article-source-url {
+    padding: $article-padding 0;
+    margin-top: $article-padding;
+    position: relative;
+    background: #FFF;
+    border-top: 1px solid #DDD;
+    font-size: .85em;
+    word-break: break-all;
+  }
+
+  .vi-article-body {
+    > p:first-child:first-letter {
+      float: left;
+      font-size: 48px;
+      line-height: 48px;
+      font-weight: 700;
+      padding-right: 5px;
+    }
+  }
+
+  .vi-article-description {
+    position: relative;
+
+    .vi-article-redirect {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      background: #FFF;
+    }
+  }
+
+  .vi-created-date {
+    font-size: 16px;
+  }
+
+  .vi-app-wrapper:not(.vi-show-header-home) viidia-header {
+    .vi-header:not(.vi-transparent), .vi-header.vi-transparent.vi-shrink, .vi-header.vi-transparent.vi-colorize {
+      background: #305e6c !important;
+
+      .vi-header-bottom {
+        .vi-menu {
+          li {
+            a {
+              color: #FFF !important;
+            }
+          }
+        }
+      }
+
+      .vi-search-box {
+        color: #FFF !important;
+
+        button {
+          color: #FFF !important;
+        }
+      }
+
+      .vi-user-menu {
+        color: #FFF !important;
+
+        a {
+          color: #FFF !important;
+        }
+      }
+
+      .vi-logo-black, .vi-mascot .vi-icon-mascot-alt {
+        display: none !important;
+      }
+
+      .vi-logo-white, .vi-mascot .vi-icon-mascot {
+        display: block !important;
+      }
+
+      .vi-icon-close {
+        background-image: url('/assets/images/icons/hamburger-menu.png') !important;
+      }
+    }
+  }
+}
+
+.vi-menu-bottom-bar {
+  background: #FFF;
+  box-shadow: 0px 0px 0px #305e6c, 0px 0px 5px #305e6c;
+
+  > * {
+    color: #305e6c;
+
+    .vi-previous-page-control {
+      color: #305e6c;
+
+      + .vi-ic-text {
+        color: #305e6c;
+      }
+    }
+  }
+
+  .vi-ic-text {
+    font-weight: 400;
+  }
+}
+
+.vi-article-alert {
+  position: fixed;
+  top: 40%;
+  left: 15px;
+  right: 15px;
+  text-align: center;
+}

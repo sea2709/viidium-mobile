@@ -1,0 +1,23 @@
+<div class="vi-videos-block" *ngIf="videos?.length > 0">
+    <div class="vi-header clearfix">
+        <h4 class="pull-left">Watch Videos</h4>
+        <div class="vi-view-all">
+            <a title="Videos" [routerLink]="['/videos']">
+                View all
+                <i class="fa fa-angle-double-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <ul class="vi-video-carousel" #videoCarousel *ngIf="videos?.length > 0">
+        <li *ngFor="let video of videos">
+            <div class="vi-video" [ngStyle]="{'background-image': 'url(' + (video.image ? video.image : '') + ')'}">
+                <div *ngIf="video.videoHtml" class="vi-video-play-btn"
+                     (click)="videoPlayerService.showVideoPlayer(video.videoHtml)">
+                    <span class="glyphicon glyphicon-play"></span>
+                </div>
+            </div>
+            <h4 class="vi-video-name h6">{{stringUtilities.substr(video.name)}}</h4>
+        </li>
+    </ul>
+</div>

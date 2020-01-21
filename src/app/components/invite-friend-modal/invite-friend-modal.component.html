@@ -1,0 +1,43 @@
+<ng-template #inviteModal>
+    <div class="modal-header">
+        <h3 class="modal-title">Invite Friend</h3>
+        <div class="vi-modal-description">
+            Invite your friend to become a curator. We will send an email to your friend with the register URL. So your
+            friend will become a curator and be able to submit articles to our community !
+        </div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="this.hideModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <viidia-alert></viidia-alert>
+        <form [formGroup]="inviteFriendForm" (submit)="onSubmitInvitation()">
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="name" id="name" placeholder="Name*"/>
+                <span class="help-block" *ngIf="inviteFriendForm.get('name').touched
+                    && inviteFriendForm.get('name').invalid && inviteFriendForm.get('name').errors['required']">
+                    This field is required!
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="email" id="email" placeholder="Email*"/>
+                <span class="help-block" *ngIf="inviteFriendForm.get('email').touched
+                    && inviteFriendForm.get('email').invalid && inviteFriendForm.get('email').errors['required']">
+                    This field is required!
+                </span>
+            </div>
+            <div class="form-group">
+                <textarea formControlName="message" id="message" class="form-control" rows="5"
+                          placeholder="Say something to your friend (optional)">
+                </textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary vi-full-control"
+                    [disabled]="!inviteFriendForm.valid || inviteFriendForm.untouched">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isLoading"></i>
+                    Invite
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

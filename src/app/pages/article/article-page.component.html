@@ -1,0 +1,235 @@
+<ng-template [ngIf]="article && todayGroup">
+    <div class="vi-article-wrapper">
+        <ng-template [ngIf]="!article.externalReferral || article.needToRediect()">
+            <ng-template [ngIf]="article.category.groupLayout == 1">
+                <layout-1 [article]="article" [todayGroup]="todayGroup"
+                    (toggleFeaturedArticle)="toggleFeaturedArticle()"
+                    (addToOurPicks)="addArticleToOurPicks()"
+                    (addToCollections)="addArticleToCollections()"
+                    (repostArticle)="repostArticle()"
+                    [previousArticle]="previousArticle" [nextArticle]="nextArticle"></layout-1>
+                
+                <div class="vi-more vi-tags" *ngIf="article.tags?.length > 0">
+                    <div class="vi-more-label vi-tags-label">Tags</div>
+                    <ul>
+                        <li *ngFor="let tag of article.tags">
+                            <a [routerLink]="['/search']" [queryParams]="{t: tag.name}">{{tag.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="vi-more vi-collections" *ngIf="collections?.length > 0">
+                    <div class="vi-more-label vi-collections-label">Collections</div>
+                    <ul>
+                        <li *ngFor="let collection of collections">
+                            <a [routerLink]="['/collections', collection.id, collection.name | slugify]">{{collection.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="vi-more" *ngIf="todayGroup.containArticle(article)">
+                    <div class="vi-more-label">Our Picks</div>
+                </div>
+
+                <div class="vi-more" *ngIf="article.featured">
+                    <div class="vi-more-label">Featured</div>
+                </div>
+
+                <read-next-1 [article]="nextArticle"></read-next-1>
+            </ng-template>
+
+            <ng-template [ngIf]="article.category.groupLayout == 2">
+                <layout-2 [article]="article" [todayGroup]="todayGroup"
+                    (toggleFeaturedArticle)="toggleFeaturedArticle()"
+                    (addToOurPicks)="addArticleToOurPicks()"
+                    (addToCollections)="addArticleToCollections()"
+                    (repostArticle)="repostArticle()"
+                    [previousArticle]="previousArticle" [nextArticle]="nextArticle"></layout-2>
+                <related-users [article]="article"></related-users>
+
+                <div class="vi-more vi-tags" *ngIf="article.tags?.length > 0">
+                    <div class="vi-more-label vi-tags-label">Tags:</div>
+                    <ul>
+                        <li *ngFor="let tag of article.tags">
+                            <a [routerLink]="['/search']" [queryParams]="{t: tag.name}">{{tag.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="vi-more vi-collections" *ngIf="collections?.length > 0">
+                    <div class="vi-more-label vi-collections-label">Collections</div>
+                    <ul>
+                        <li *ngFor="let collection of collections">
+                            <a [routerLink]="['/collections', collection.id, collection.name | slugify]">{{collection.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="vi-more" *ngIf="todayGroup.containArticle(article)">
+                    <div class="vi-more-label">Our Picks</div>
+                </div>
+
+                <div class="vi-more" *ngIf="article.featured">
+                    <div class="vi-more-label">Featured</div>
+                </div>
+
+                <read-next-2 [article]="nextArticle"></read-next-2>
+            </ng-template>
+
+            <ng-template [ngIf]="article.category.groupLayout == 3">
+                <layout-3 [article]="article" [todayGroup]="todayGroup"
+                    (toggleFeaturedArticle)="toggleFeaturedArticle()"
+                    (addToOurPicks)="addArticleToOurPicks()"
+                    (addToCollections)="addArticleToCollections()"
+                    (repostArticle)="repostArticle()"
+                    [previousArticle]="previousArticle" [nextArticle]="nextArticle"></layout-3>
+                <related-users [article]="article"></related-users>
+
+                <div class="vi-more vi-tags" *ngIf="article.tags?.length > 0">
+                    <div class="vi-more-label vi-tags-label">Tags:</div>
+                    <ul>
+                        <li *ngFor="let tag of article.tags">
+                            <a [routerLink]="['/search']" [queryParams]="{t: tag.name}">{{tag.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="vi-more vi-collections" *ngIf="collections?.length > 0">
+                    <div class="vi-more-label vi-collections-label">Collections</div>
+                    <ul>
+                        <li *ngFor="let collection of collections">
+                            <a [routerLink]="['/collections', collection.id, collection.name | slugify]">{{collection.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="vi-more" *ngIf="todayGroup.containArticle(article)">
+                    <div class="vi-more-label">Our Picks</div>
+                </div>
+
+                <div class="vi-more" *ngIf="article.featured">
+                    <div class="vi-more-label">Featured</div>
+                </div>
+
+                <read-next-3 [article]="nextArticle"></read-next-3>
+            </ng-template>
+        </ng-template>
+
+        <ng-template [ngIf]="article.externalReferral && !article.needToRediect()">
+            <iframe class="vi-frame" [src]="article.sourceUrl | safe"></iframe>
+        </ng-template>
+
+        <div class="vi-article-bottom-info">
+            <related [article]="article" [relatedArticles]="relatedArticles"></related>
+            <people-are-reading [article]="article" [trendingArticles]="trendingArticles"></people-are-reading>
+            <other-categories #otherCategories [category]="article.category"></other-categories>
+        </div>
+    </div>
+ 
+    <ng-template #alertModal>
+        <div class="modal-header">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="alertModalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <viidia-alert [showCloseBtn]="false"></viidia-alert>
+        </div>
+    </ng-template>
+
+    <div #articleBottomBar class="vi-menu-bottom-bar">
+        <a [routerLink]="['/']" title="Viidium">
+            <i class="fa fa-home"></i>
+            <div class="vi-ic-text">Home</div>
+        </a>
+
+        <a (click)="categoriesState = 'active'" *ngIf="categories">
+            <div class="vi-icon-categories"></div>
+            <div class="vi-ic-text">Categories</div>
+        </a>
+
+        <ng-container *ngIf="!previousPage">
+            <a (click)="highlightsState = 'active'" *ngIf="todayGroup">
+                <div class="vi-icon-our-picks"></div>
+                <div class="vi-ic-text">Our Picks</div>
+            </a>
+
+            <a (click)="activateArticles()" >
+                <div class="vi-icon-articles"></div>
+                <div class="vi-ic-text">Others</div>
+            </a>
+        </ng-container>
+
+        <ng-container *ngIf="previousPage">
+            <ng-container *ngIf="previousPageArticle">
+                <a (click)="addPreviousPageInfoToStore()"
+                    title="{{previousPageArticle.name}}" [routerLink]="['/article', previousPageArticle.id, previousPageArticle.name | slugify]">
+                    <i class="fa fa-chevron-left vi-previous-page-control"></i>
+                    <div class="vi-ic-text">Previous</div>
+                </a>
+            </ng-container>
+            <ng-container *ngIf="!previousPageArticle">
+                <i></i>
+            </ng-container>
+            <a *ngIf="(previousPage.name !== 'Our Picks' && previousPage.name !== 'Category' && previousPage.name !== 'Collection') 
+                || (previousPage.name === 'Our Picks' && !todayGroup)"
+                class="vi-previous-page" [innerHTML]="previousPage.name" title="{{previousPage.name}}" [routerLink]="previousPage.url"></a>
+            <a class="vi-previous-page" *ngIf="previousPage.name === 'Our Picks' && todayGroup" (click)="highlightsState = 'active'"
+                [innerHTML]="previousPage.name" title="{{previousPage.name}}"></a>
+            <a class="vi-previous-page" *ngIf="previousPage.name === 'Category'" title="{{previousPage.name}}" [routerLink]="previousPage.url">
+                {{this.article.category.name}}
+            </a>
+            <a class="vi-previous-page" *ngIf="previousPage.name === 'Collection'" title="{{previousPage.data.collectionName}}" [routerLink]="previousPage.url">
+                {{previousPage.data.collectionName}}
+            </a>
+            <ng-container *ngIf="nextPageArticle">
+                <a (click)="addPreviousPageInfoToStore()" title="{{nextPageArticle.name}}" [routerLink]="['/article', nextPageArticle.id, nextPageArticle.name | slugify]">
+                    <i class="fa fa-chevron-right vi-previous-page-control "></i>
+                    <div class="vi-ic-text">Next</div>
+                </a>
+            </ng-container>
+            <ng-container *ngIf="!nextPageArticle">
+                <i></i>
+            </ng-container>
+        </ng-container>
+    </div>
+
+    <div class="vi-swipeup-lightbox" *ngIf="categories"
+         [ngClass]="{'vi-active': categoriesState === 'active'}" [@swipeUpState]="categoriesState">
+        <div class="vi-close-btn" (click)="categoriesState = 'inactive'">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <div class="vi-categories">
+            <ng-container *ngFor="let cat of categories">
+                <category [category]="cat" *ngIf="cat?.articles" (clickArticleDetailsPage)="viewCatArticleDetails(cat)"></category>
+            </ng-container>
+        </div>
+    </div>
+
+    <div #articlesLightbox class="vi-swipeup-lightbox" [ngClass]="{'vi-active': articlesState === 'active'}"
+        [@swipeUpState]="articlesState">
+        <div class="vi-close-btn" (click)="articlesState = 'inactive'">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <div class="vi-load-more" *ngIf="isLoadingArticlesInPanel">
+            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+            Loading more items ...
+        </div>
+        <articles-panel #articlesPanel
+            [article]="article" [nextArticles]="nextArticles" [prevArticles]="prevArticles"></articles-panel>
+        <div class="vi-load-more" *ngIf="isLoadingArticlesInPanel">
+            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+            Loading more items ...
+        </div>
+    </div>
+
+    <div class="vi-swipeup-lightbox" *ngIf="todayGroup"
+        [ngClass]="{'vi-active': highlightsState === 'active'}" [@swipeUpState]="highlightsState">
+        <div class="vi-close-btn" (click)="highlightsState = 'inactive'">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <group *ngIf="todayGroup"
+            [groups]="[todayGroup]" [maximumHighlights]="0"
+            (clickArticleDetailsPage)="viewOurpickArticleDetails()"></group>
+    </div>
+</ng-template>

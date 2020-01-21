@@ -1,0 +1,242 @@
+@import "~variables.scss";
+
+:host {
+  display: block;
+  margin-top: calc(100vh - 45px) !important;
+}
+
+.vi-article-image {
+  height: calc(100vh - 45px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &:before {
+    background: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.01) 75%, transparent 76%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=0 );
+    height: 50%;
+  }
+
+  &:after {
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .vi-category-thumb {
+    img {
+      max-height: 150px;
+      max-width: 350px;
+    }
+  }
+
+  .vi-article-top-info {
+    color: #FFF;
+    padding: 0 $article-padding;
+    position: absolute;
+    top: 80px;
+    z-index: 1;
+    text-align: center;
+
+    .vi-article-title {
+      position: relative;
+      font-family: 'Playfair Display', sans-serif;
+      margin: $article-padding;
+
+      .vi-nav-article {
+        position: absolute;
+        top: 50%;
+        font-size: 24px;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        height: 100%;
+        width: 50%;
+
+        a {
+          color: #FFF;
+        }
+
+        &.vi-prev-article {
+          left: 0;
+
+          i:before {
+            left:-20px;
+          }
+        }
+
+        &.vi-next-article {
+          right: 0;
+
+          i:before {
+            right:-20px;
+          }
+        }
+
+        i {
+          display: block;
+          width: 100%;
+          height: 100%;
+          -webkit-transition:all .3s ease;
+          -o-transition:all .3s ease;
+          transition:all .3s ease;
+
+          &:before {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+          }
+
+          &:hover {
+            background-color: rgba(0,0,0,.2);
+          }
+        }
+      }
+    }
+  }
+
+  .vi-article-description {
+    font-family: 'Playfair Display', sans-serif;
+    font-style: oblique;
+    color: #FFF;
+    margin: 30px 0;
+    min-height: auto;
+  }
+
+  .vi-created-date {
+    position: relative;
+
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      top: 11px;
+      width: 25%;
+      height: 1px;
+      background: #FFF;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+    &:after {
+      right: 0;
+    }
+  }
+
+  .vi-social-shares {
+    margin: 15px 0;
+  }
+}
+
+.vi-article-body {
+  position: relative;
+  background: #FFF;
+  padding: $article-padding;
+  margin-left: -$article-padding;
+  margin-right: -$article-padding;
+
+  ::ng-deep {
+    iframe {
+      max-width: 100%;
+    }
+  }
+}
+
+.vi-article-source {
+  font-style: oblique;
+
+  span {
+    color: #05dce9;
+    font-style: normal;
+    font-weight: 700;
+  }
+}
+
+.vi-social-shares {
+  > a {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    display: inline-block;
+    border: 1px solid #CCC;
+    color: #FFF;
+    margin: 0 5px;
+    font-size: 18px;
+    text-align: center;
+
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.vi-article-bottom {
+  padding: $article-padding;
+  margin-left: -$article-padding;
+  margin-right: -$article-padding;
+  margin-top: -$article-padding;
+  position: relative;
+  background: #FFF;
+  line-height: 36px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    height: 2px;
+    width: 50px;
+    background: #ef0038;
+  }
+
+  .vi-social-shares {
+    a {
+      color: #000;
+    }
+  }
+}
+
+.vi-article-source-url {
+  margin-top: 0;
+  padding: $article-padding;
+  margin-left: -$article-padding;
+  margin-right: -$article-padding;
+  margin-bottom: $article-padding;
+  word-break: break-all;
+}
+
+.vi-article-redirect {
+  margin: 15px;
+  font-size: 0.85em;
+
+  a {
+    color: #FFF;
+  }
+}
+
+:host {
+  ::ng-deep {
+    related-users {
+      margin-top: 15px;
+
+      > .vi-related-users {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

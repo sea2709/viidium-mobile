@@ -1,0 +1,170 @@
+<div class="vi-form-page">
+    <div class="vi-form-page-header">
+        <h1 class="vi-title h3">Edit Profile</h1>
+    </div>
+    <viidia-alert></viidia-alert>
+    <div class="vi-form-page-body">
+        <div class="vi-user-image-block">
+            <div class="vi-user-change-cover-photo">
+                <img src="{{user?.coverPhoto}}" #coverPhoto class="vi-user-cover-photo" (click)="coverPhotoInput.click()" />
+                <div [hidden]="true">
+                    <input type="file"
+                        (change)="fileChange(coverPhotoInput, 'coverPhotoId', coverPhoto, 1000, 800)" #coverPhotoInput />
+                </div>
+                <i class="fa fa-image" (click)="coverPhotoInput.click()"></i>
+            </div>
+            <div class="vi-user-change-image">
+                <img src="{{(user?.image)?user.image:'/assets/images/user.jpg'}}" #profilePhoto (click)="profilePhotoInput.click()" />
+                <div [hidden]="true">
+                    <input type="file"
+                        (change)="fileChange(profilePhotoInput, 'userPictureId', profilePhoto, 600, 600)" #profilePhotoInput />
+                </div>
+                <i class="fa fa-image" (click)="profilePhotoInput.click()"></i>
+            </div>
+        </div>
+
+        <form [formGroup]="profileForm" (submit)="onSubmit()" *ngIf="user">
+            <div class="form-group">
+                <input type="text" id="name" class="form-control" formControlName="name" [(ngModel)]="user.name" placeholder="Name*" />
+                <span class="help-block" *ngIf="profileForm.get('name').touched
+                    && profileForm.get('name').invalid && profileForm.get('name').errors['required']">
+                    This field is required!
+                </span>
+            </div>
+
+            <div class="form-group">
+                <input type="email" id="email" class="form-control" formControlName="email" placeholder="Email*" />
+                <span class="help-block" *ngIf="profileForm.get('email').touched && profileForm.get('email').invalid">
+                    <ng-container *ngIf="profileForm.get('email').errors['required']">This field is required!</ng-container>
+                    <ng-container *ngIf="!profileForm.get('email').errors['required'] && profileForm.get('email').errors['email']">
+                        Please input a valid email!
+                    </ng-container>
+                    <ng-container *ngIf="!profileForm.get('email').errors['required']
+                        && !profileForm.get('email').errors['email'] && profileForm.get('email').errors['valueIsForbidden']">
+                        This email is not available now!
+                    </ng-container>
+                </span>
+            </div>
+
+            <div class="form-group">
+                <textarea id="description" class="form-control" formControlName="description"
+                    [(ngModel)]="user.description" placeholder="Description">
+                </textarea>
+            </div>
+
+            <div class="form-group" formArrayName="topics">
+                <label>Interesting Topics</label>
+                <ul class="vi-checkboxes">
+                    <ng-container *ngFor="let topicControl of getControls(profileForm, 'topics'); let i = index">
+                        <li class="form-group">
+                            <input type="checkbox" [formControl]="topicControl"
+                                (change)="onChange(topics[i].id, $event.target.checked)" /> {{topics[i].name}}
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-default vi-full-control" type="button" (click)="showChangePasswordForm(changePassword)">
+                    Update Password
+                </button>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary vi-full-control" type="submit">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isLoading"></i>
+                    Update
+                </button>
+            </div>
+            <div class="form-group">
+                <button class="btn vi-full-control" (click)="backToProfilePage()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<ng-template #changePassword>
+    <div class="modal-header">
+        <h3 class="modal-title">Update Password</h3>
+        <div class="vi-modal-description text-center">
+            Please input your current password and your new password.
+        </div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="changePasswordRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <viidia-alert></viidia-alert>
+        <form [formGroup]="passwordForm" (submit)="onUpdatePasswordSubmit()">
+            <div class="form-group">
+                <input type="password" id="currentPassword" class="form-control" formControlName="currentPassword" placeholder="Current Password*" />
+                <span class="help-block" *ngIf="passwordForm.get('currentPassword').touched && passwordForm.get('currentPassword').invalid">
+                    <ng-container *ngIf="passwordForm.get('currentPassword').errors['required']">
+                        This field is required!
+                    </ng-container>
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="password" id="newPassword" class="form-control" formControlName="newPassword" placeholder="New Password*" />
+                <span class="help-block" *ngIf="passwordForm.get('newPassword').touched && passwordForm.get('newPassword').invalid">
+                    <ng-container *ngIf="passwordForm.get('newPassword').errors['required']">
+                        This field is required!
+                    </ng-container>
+                    <ng-container *ngIf="!passwordForm.get('newPassword').errors['required'] &&
+                        passwordForm.get('newPassword').errors['minlength']">
+                        Password must have at least {{passwordForm.get('newPassword').errors['minlength']['requiredLength']}} letters!
+                    </ng-container>
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="password" id="confirmNewPassword" class="form-control" formControlName="confirmNewPassword" placeholder="Confirm New Password*" />
+                <span class="help-block" *ngIf="passwordForm.get('confirmNewPassword').touched
+                    && passwordForm.get('confirmNewPassword').invalid && passwordForm.get('confirmNewPassword').errors['required']">
+                    This field is required!
+                </span>
+                <span class="help-block"
+                      *ngIf="passwordForm.get('confirmNewPassword').touched && passwordForm.get('confirmNewPassword').valid
+                        && passwordForm.invalid && passwordForm.errors['mismatch']">
+                    Confirm password does not match!
+                </span>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-primary vi-full-control" type="submit">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isUpdatePasswordLoading"></i>
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<div #currentPasswordModal="bs-modal" class="modal fade" bsModal aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Current Password</h3>
+                <div class="vi-modal-description">
+                    Because you update your email, please provide us your account current password.
+                </div>
+                <button type="button" class="close pull-right" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <viidia-alert></viidia-alert>
+                <form (submit)="onUpdateCurrentPasswordSubmit()">
+                    <div class="form-group">
+                        <input type="password" id="currentPass" class="form-control" placeholder="Current Password*"
+                            [(ngModel)]="currentPassword" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary vi-full-control" type="submit">
+                            <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isLoading"></i>
+                            Update
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

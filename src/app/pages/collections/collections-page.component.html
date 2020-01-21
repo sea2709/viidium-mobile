@@ -1,0 +1,77 @@
+<div class="vi-header-image-white">
+    <img src="assets/images/header-images/collections-white.png" alt="Collections">
+</div>
+<div class="vi-header-sort-options">
+    <span [ngClass]="{'selected':selectedView === 'thumbnail'}" (click)="switchView('thumbnail')">
+        <i class="fa fa-th-large" aria-hidden="true"></i>
+    </span>
+    <span [ngClass]="{'selected':selectedView === 'list'}" (click)="switchView('list')">
+        <i class="fa fa-list" aria-hidden="true"></i>
+    </span>
+</div>
+
+<div class="vi-header-image-scroll vi-menu-bottom-bar">
+    <a [routerLink]="['/']" title="Viidium">
+        <i class="fa fa-home"></i>
+        <div class="vi-ic-text">Home</div>
+    </a>
+
+    <a [routerLink]="['/trending']" title="Trending">
+        <div class="vi-icon-trending"></div>
+        <div class="vi-ic-text">Trending</div>
+    </a>
+
+    <a [routerLink]="['/our-picks']" title="Our Picks">
+        <div class="vi-icon-our-picks"></div>
+        <div class="vi-ic-text">Our Picks</div>
+    </a>
+
+    <a [routerLink]="['/photos']" title="Photos">
+        <div class="vi-icon-photo"></div>
+        <div class="vi-ic-text">Photos</div>
+    </a>
+
+    <a (click)="headerService.toggleSearch()">
+        <i class="fa fa-search"></i>
+        <div class="vi-ic-text">Search</div>
+    </a>
+</div>
+
+<collections [collections]="collections" [collectionWidth]="collectionWidth" [isCollectionPage]="true" 
+    *ngIf="collections.length > 0" [view]="selectedView"></collections>
+
+<div (click)="onOpenCollectionForm()" class="vi-new-collection" *ngIf="loggedInUser && loggedInUser.canAddToCollections()">
+    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+</div>
+
+<ng-template #newCollectionModal>
+    <div class="modal-header">
+        <h3 class="modal-title">New Collection</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="onCloseCollectionForm()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <viidia-alert></viidia-alert>
+        <form [formGroup]="collectionForm" (submit)="onCollectionSubmit()">
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="title" id="tile" placeholder="Title*" />
+                <span class="help-block" *ngIf="collectionForm.get('title').touched
+                    && collectionForm.get('title').invalid && collectionForm.get('title').errors['required']">
+                    This field is required!
+                </span>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" formControlName="description" id="description" placeholder="Description"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" formControlName="is_private"/> Is Private
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary vi-full-control">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

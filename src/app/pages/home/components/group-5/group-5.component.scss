@@ -1,0 +1,25 @@
+.vi-articles-wrapper {
+  position: relative;
+  padding-left: 15px;
+
+  &:before {
+    background-color: #EEE;
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 30px;
+    right: 0;
+  }
+
+  .vi-article {
+    padding: 15px 0;
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+
+    + .vi-article {
+      border-top: 2px solid #FFF;
+    }
+  }
+}

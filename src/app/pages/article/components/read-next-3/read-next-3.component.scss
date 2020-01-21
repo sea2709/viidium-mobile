@@ -1,0 +1,77 @@
+@import "~variables.scss";
+
+.vi-read-next-wrapper {
+  margin-left: -$article-padding;
+  margin-right: -$article-padding;
+
+  .vi-header {
+    text-align: left;
+    margin: 0;
+    padding: $article-padding;
+    background: #186aa8;
+    color: #FFF;
+  }
+
+  .vi-article-image {
+    position: relative;
+    height: 300px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,.5);
+    }
+
+    .vi-article-info {
+      position: relative;
+      text-align: center;
+      padding: 10px;
+      color: #FFF;
+
+      a {
+        color: #FFF;
+      }
+
+      > div {
+        margin: 15px 0;
+      }
+    }
+
+    .vi-article-category {
+      margin: $article-padding;
+      position: relative;
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      font-size: 12.5px;
+
+      a {
+        color: #FFF;
+      }
+    }
+
+    .vi-article-title {
+      font-family: 'Roboto Slab';
+    }
+
+    .vi-article-bottom-info {
+      position: absolute;
+      bottom: 0;
+      color: #FFF;
+      padding: $article-padding;
+
+      a {
+        color: #FFF;
+      }
+
+      > .container > .row {
+        margin: $article-padding 0;
+      }
+    }
+  }
+}

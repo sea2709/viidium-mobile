@@ -1,0 +1,62 @@
+<div class="vi-header-image-white"><img src="assets/images/header-images/trending-white.png" alt="Trending"></div>
+
+<div class="vi-header-image-scroll vi-menu-bottom-bar">
+    <a [routerLink]="['/']" title="Viidium">
+        <i class="fa fa-home"></i>
+        <div class="vi-ic-text">Home</div>
+    </a>
+
+    <a [routerLink]="['/categories']" title="Categories">
+        <div class="vi-icon-categories"></div>
+        <div class="vi-ic-text">Categories</div>
+    </a>
+
+    <a [routerLink]="['/videos']" title="Videos">
+        <div class="vi-icon-video"></div>
+        <div class="vi-ic-text">Videos</div>
+    </a>
+
+    <a [routerLink]="['/photos']" title="Photos">
+        <div class="vi-icon-photo"></div>
+        <div class="vi-ic-text">Photos</div>
+    </a>
+
+    <a (click)="headerService.toggleSearch()">
+        <i class="fa fa-search"></i>
+        <div class="vi-ic-text">Search</div>
+    </a>
+</div>
+
+<div class="vi-articles" *ngIf="articles" infinite-scroll (scrolled)="onScrollDown()">
+    <div *ngFor="let article of articles; first as isFirst" class="vi-article">
+        <div class="vi-row-style-10">
+            <div class="vi-article-wrapper" [ngClass]="{'vi-first': isFirst}"
+                [ngStyle]="{'background-image': 'url(' + (article.image ? article.image : '') + ')'}">
+                <div *ngIf="article.featured" class="vi-article-featured-label">Featured</div>
+                <div class="vi-article-category" [ngStyle]="{'background-color': article.category?.color}"
+                     *ngIf="article?.category && !isFirst">
+                    <a [routerLink]="['/categories', article.category.id, article?.category.name | slugify]">
+                        {{article.category.name}}
+                    </a>
+                </div>
+                <h2 class="vi-article-title h4">
+                    <a [routerLink]="['/article', article.id, article.name | slugify]">
+                        {{stringUtilities.substr(article.name)}}
+                    </a>
+                </h2>
+                <div *ngIf="article.videoHtml" class="vi-video-play-btn"
+                     (click)="videoPlayerService.showVideoPlayer(article.videoHtml)">
+                    <span class="glyphicon glyphicon-play"></span>
+                </div>
+                <!-- <article-actions [article]="article"></article-actions> -->
+            </div>
+    
+            <div class="vi-article-info-wrapper">
+                <div>
+                    <div class="vi-article-summary">{{article.summary}}</div>
+                    <div class="vi-article-source">{{article.articleSource?.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

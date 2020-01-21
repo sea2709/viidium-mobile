@@ -1,0 +1,48 @@
+.vi-header {
+  text-transform: uppercase;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    background: #EEE;
+    z-index: -1;
+  }
+}
+
+.vi-categories {
+  padding: 0;
+  margin-bottom: 10px;
+  text-align: center;
+  background: #FFF;
+  overflow: hidden;
+}
+
+.vi-category {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 2.5px;
+  width: 50%;
+
+  a {
+    display: block;
+
+    .vi-frame {
+      border: 2px solid #DDD;
+      padding: 10px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+
+      img {
+        max-height: 65px;
+        margin: auto;
+      }
+    }
+  }
+}

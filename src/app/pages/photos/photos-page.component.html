@@ -1,0 +1,47 @@
+<div class="vi-header-image-white">
+    <img src="assets/images/header-images/photos-white.png" alt="Photos">
+</div>
+
+<div class="vi-header-image-scroll vi-menu-bottom-bar">
+    <a [routerLink]="['/']" title="Viidium">
+        <i class="fa fa-home"></i>
+        <div class="vi-ic-text">Home</div>
+    </a>
+
+    <a [routerLink]="['/trending']" title="Trending">
+        <div class="vi-icon-trending"></div>
+        <div class="vi-ic-text">Trending</div>
+    </a>
+
+    <a [routerLink]="['/our-picks']" title="Our Picks">
+        <div class="vi-icon-our-picks"></div>
+        <div class="vi-ic-text">Our Picks</div>
+    </a>
+
+    <a [routerLink]="['/collections']" title="Collections">
+        <div class="vi-icon-collection"></div>
+        <div class="vi-ic-text">Collections</div>
+    </a>
+
+    <a (click)="headerService.toggleSearch()">
+        <i class="fa fa-search"></i>
+        <div class="vi-ic-text">Search</div>
+    </a>
+</div>
+
+<div class="vi-gallery" id="gallery" #gallery *ngIf="photoSets?.length > 0"
+    infinite-scroll (scrolled)="onScrollDown()">
+    <a [routerLink]="['/photos', photoSet.id, photoSet.name | slugify]" title="{{photoSet.name}}"
+        *ngFor="let photoSet of photoSets; first as isFirst" class="vi-photo-set">
+        <div class="vi-photo"
+            [ngClass]="{'vi-first': isFirst}"
+            [ngStyle]="{'background-image': 'url(' + (photoSet.photos[0].src ? photoSet.photos[0].src : '') + ')'}">
+            <h1 class="h5 vi-name">{{photoSet.name}}</h1>
+        </div>
+    </a>
+</div>
+
+<div class="vi-load-more" *ngIf="isLoading">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+    Loading more items ...
+</div>

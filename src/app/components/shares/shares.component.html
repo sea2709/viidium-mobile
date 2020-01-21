@@ -1,0 +1,27 @@
+<div class="dropup">
+    <div class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="vi-icon-share"></span>
+    </div>
+    <ul class="dropdown-menu dropdown-menu-right">
+        <li>
+            <a md-raised-button shareButton="facebook" [sbUrl]="articleUrl" [sbTitle]="article.name"
+                [sbDescription]="article.summary" [sbImage]="article.image">
+                <i class="fa fa-facebook"></i>
+                Share Facebook
+            </a>
+        </li>
+        <li>
+            <a md-raised-button shareButton="twitter" [sbUrl]="articleUrl" [sbTitle]="article.name"
+               [sbDescription]="article.summary" [sbImage]="article.image">
+                <i class="fa fa-twitter"></i>
+                Share Twitter
+            </a>
+        </li>
+        <li>
+            <a md-raised-button href="mailto:?to=&subject=Viidia - {{article.name}}&body={{articleUrl}}">
+                <i class="fa fa-envelope"></i>
+                Email
+            </a>
+        </li>
+    </ul>
+</div>

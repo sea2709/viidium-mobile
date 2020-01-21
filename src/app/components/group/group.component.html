@@ -1,0 +1,127 @@
+<ng-container *ngFor="let group of groups">
+    <ng-container *ngIf="group?.articles?.length > 0">
+        <div class="vi-group" *ngIf="group.isRelatedGroup">
+            <div class="vi-primary-article" (click)="gotoArticleDetails($event, group.articles[0])">
+                <div class="vi-article-wrapper"
+                    [ngStyle]="{'background-image': 'url(' + (group.articles[0].image ? group.articles[0].image : '') + ')'}">
+                    <div *ngIf="group.articles[0].videoHtml" class="vi-video-play-btn"
+                         (click)="videoPlayerService.showVideoPlayer(group.articles[0].videoHtml)">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </div>
+                </div>
+                <div class="vi-article-info text-center">
+                    <h2 class="vi-article-title h4">
+                        <a title="{{group.articles[0].name}}"
+                            [routerLink]="['/article', group.articles[0].id, group.articles[0].name | slugify]">
+                            {{stringUtilities.substr(group.articles[0].name)}}
+                        </a>
+                    </h2>
+                    <div class="vi-article-source">{{group.articles[0].articleSource?.name}}</div>
+                    <div class="vi-article-summary">{{group.articles[0].summary}}</div>
+                </div>
+            </div>
+            <div class="vi-group-articles-info">
+                <div class="vi-related-articles vi-related-articles-{{group.articles[0].category.id}}">
+                    <div class="vi-header">Related Articles</div>
+                    <div class="vi-container">
+                        <ul class="vi-articles" *ngIf="group.articles.length > 0">
+                            <ng-container *ngFor="let article of group.articles; let i = index">
+                                <li class="vi-article clearfix" *ngIf="i > 0" (click)="gotoArticleDetails($event, article)">
+                                    <div class="vi-article-info">
+                                        <h2 class="vi-article-title h5">
+                                            <a title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                                                {{stringUtilities.substr(article.name)}}
+                                            </a>
+                                        </h2>
+                                        <div class="vi-article-source">{{article.articleSource?.name}}</div>
+                                        <div class="vi-article-summary">{{article.summary}}</div>
+                                    </div>
+                                </li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="vi-special-group" *ngIf="!group.isRelatedGroup">
+            <ng-container *ngIf="equalHeight">
+                <div class="vi-primary-article" (click)="gotoArticleDetails($event, article)"
+                    *ngFor="let article of this.group.articles; let i = index; first as isFirst">
+                    <div class="vi-article-wrapper"
+                         [ngStyle]="{'background-image': 'url(' + (article.getImage()) + ')'}"
+                         [ngClass]="{'vi-first': isFirst}">
+                        <div *ngIf="article.videoHtml" class="vi-video-play-btn"
+                             (click)="videoPlayerService.showVideoPlayer(article.videoHtml)">
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="vi-article-info">
+                        <div class="vi-article-number">{{stringUtilities.formatNumberWithZeroAhead(i+1)}}</div>
+                        <div class="vi-article-source">{{article.articleSource?.name}}</div>
+                        <h2 class="vi-article-title h4">
+                            <a (click)="gotoArticleDetailsPage()"
+                                title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                                {{article.name}}
+                            </a>
+                            <span (click)="onClickRemoveArticleFromGroup(article)" *ngIf="loggedInUser && loggedInUser.canRemoveArticleFromGroup(group)">
+                                [Remove]
+                            </span>
+                        </h2>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="!equalHeight">
+                <div class="vi-primary-article" (click)="gotoArticleDetails($event, group.articles[0])">
+                    <div class="vi-article-wrapper" [ngStyle]="{'background-image': 'url(' + (group.articles[0].getImage()) + ')'}">
+                        <div *ngIf="group.articles[0].videoHtml" class="vi-video-play-btn"
+                             (click)="videoPlayerService.showVideoPlayer(group.articles[0].videoHtml)">
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="vi-article-info">
+                        <div class="vi-article-number">01</div>
+                        <div class="vi-article-source">{{group.articles[0].articleSource?.name}}</div>
+                        <h2 class="vi-article-title h4">
+                            <a title="{{group.articles[0].name}}"
+                               [routerLink]="['/article', group.articles[0].id, group.articles[0].name | slugify]">
+                                {{group.articles[0].name}}
+                            </a>
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="vi-group-articles-info">
+                    <div class="vi-related-articles">
+                        <div class="vi-container">
+                            <ul class="vi-articles" *ngIf="group.articles.length > 0">
+                                <ng-container *ngFor="let article of this.group.articles; let i = index">
+                                    <li class="vi-article clearfix" *ngIf="i > 0 && (i < maximumHighlights || maximumHighlights == 0)" (click)="gotoArticleDetails($event, article)"
+                                        [ngStyle]="{'background-image': 'url(' + article.image + ')'}">
+                                        <div class="vi-article-number">{{stringUtilities.formatNumberWithZeroAhead(i+1)}}</div>
+                                        <div class="vi-article-info">
+                                            <div class="vi-article-source">{{article.articleSource?.name}}</div>
+                                            <h2 class="vi-article-title h5">
+                                                <a title="{{article.name}}" (click)="gotoArticleDetailsPage()"
+                                                   [routerLink]="['/article', article.id, article.name | slugify]">
+                                                    {{article.name}}
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </li>
+                                </ng-container>
+                                <li class="vi-read-more text-center" *ngIf="readMore > 0">
+                                    <a title="Our Picks" [routerLink]="['/our-picks']">
+                                        <span class="vi-ic vi-ic-highlights-white"></span>
+                                        Read More Our Picks ({{readMore}})
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+</ng-container>

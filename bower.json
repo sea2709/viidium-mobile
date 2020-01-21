@@ -1,0 +1,20 @@
+{
+  "name": "viidium-mobile",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Hai-Dang Tran <haidang.tran@viivue.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "justifiedGallery": "^3.6.3"
+  }
+}

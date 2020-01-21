@@ -1,0 +1,67 @@
+<ng-template #submitModal>
+    <div class="modal-header">
+        <h3 class="modal-title">Submit Article</h3>
+        <div class="vi-modal-description">
+            Please submit an article URL, our staffs will input your article to Viidium to share with our
+            community.
+        </div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="this.hideModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <viidia-alert></viidia-alert>
+        <form [formGroup]="submitArticlesForm" (submit)="onArticleSubmit()">
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="article_link" id="article_link"
+                       placeholder="Article URL*"/>
+                <span class="help-block" *ngIf="submitArticlesForm.get('article_link').touched
+                    && submitArticlesForm.get('article_link').invalid && submitArticlesForm.get('article_link').errors['required']">
+                    This field is required!
+                </span>
+                <span class="help-block" *ngIf="submitArticlesForm.get('article_link').touched
+                    && submitArticlesForm.get('article_link').invalid && submitArticlesForm.get('article_link').errors['custom']">
+                    This field is invalid!
+                </span>
+            </div>
+            <div class="form-group">
+                <select class="form-control" formControlName="category">
+                    <option value="">Select Article Category*</option>
+                    <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+                </select>
+                <span class="help-block" *ngIf="submitArticlesForm.get('category').touched
+                    && submitArticlesForm.get('category').invalid && submitArticlesForm.get('category').errors['required']">
+                    This field is required!
+                </span>
+            </div>
+            <div class="form-group">
+                <div class="form-label">Collections</div>
+                <div class="form-group" formArrayName="collections">
+                    <ul class="list-group" *ngIf="collections?.length > 0">
+                      <ng-container *ngFor="let collectionControl of getControls(submitArticlesForm, 'collections'); let i = index">
+                        <li class="list-group-item form-group" *ngIf="collectionControl">
+                          <input type="checkbox" [formControl]="collectionControl" value="{{collections[i].id}}" />
+                          {{collections[i].name}}
+                          <span class="vi-collection-is-private" *ngIf="collections[i].isPrivate">[Private]</span>
+                        </li>
+                      </ng-container>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="tags" id="tags" placeholder="Tags" />
+            </div>
+            <div class="form-group">
+                <textarea formControlName="say_something" id="say-something" class="form-control"
+                          rows="5" placeholder="Say something about this URL (optional)">
+                </textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary vi-full-control">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isLoading"></i>
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

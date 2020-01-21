@@ -1,0 +1,14 @@
+<a [routerLink]="['/photos', photoSetId, title | slugify]" title="{{title}}">
+    <div class="vi-photo-set">
+        <img class="vi-photo" src="{{thumbnail}}" alt="{{title}}" title="{{title}}" />
+        <div class="vi-photo-set-info">
+            <div class="vi-photo-set-title">
+                {{title}}
+            </div>
+            <div class="vi-photo-set-count">
+                {{count}} photos
+            </div>
+        </div>
+        <div class="vi-icon-photo"></div>
+    </div>
+</a>

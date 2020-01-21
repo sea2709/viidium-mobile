@@ -1,0 +1,52 @@
+<div class="vi-header-image-white">
+    <img src="assets/images/header-images/videos-white.png" alt="Videos">
+</div>
+
+<div class="vi-header-image-scroll vi-menu-bottom-bar">
+    <a [routerLink]="['/']" title="Viidium">
+        <i class="fa fa-home"></i>
+        <div class="vi-ic-text">Home</div>
+    </a>
+
+    <a [routerLink]="['/trending']" title="Trending">
+        <div class="vi-icon-trending"></div>
+        <div class="vi-ic-text">Trending</div>
+    </a>
+
+    <a [routerLink]="['/our-picks']" title="Our Picks">
+        <div class="vi-icon-our-picks"></div>
+        <div class="vi-ic-text">Our Picks</div>
+    </a>
+
+    <a [routerLink]="['/collections']" title="Collections">
+        <div class="vi-icon-collection"></div>
+        <div class="vi-ic-text">Collections</div>
+    </a>
+
+    <a (click)="headerService.toggleSearch()">
+        <i class="fa fa-search"></i>
+        <div class="vi-ic-text">Search</div>
+    </a>
+</div>
+
+<div class="vi-videos" *ngIf="videos" infinite-scroll (scrolled)="onScrollDown()">
+    <div class="vi-video-wrapper" *ngFor="let video of videos; first as isFirst">
+        <ng-container *ngIf="video.videoHtml" >
+            <div class="vi-video" (click)="videoPlayerService.showVideoPlayer(video.videoHtml)"
+                [ngClass]="{'vi-first': isFirst}"
+                 [ngStyle]="{'background-image': 'url(' + (video.image ? video.image : '') + ')'}">
+                <div class="vi-video-play-btn">
+                    <span class="glyphicon glyphicon-play"></span>
+                </div>
+            </div>
+            <h1 class="h5 vi-video-name" (click)="videoPlayerService.showVideoPlayer(video.videoHtml)">
+                {{video.name}}
+            </h1>
+        </ng-container>
+    </div>
+
+    <div class="vi-load-more" *ngIf="isLoading">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        Loading more items ...
+    </div>
+</div>

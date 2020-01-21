@@ -1,0 +1,61 @@
+.vi-video-wrapper {
+  + .vi-video-wrapper {
+    border-top: 1px solid #AAA;
+  }
+}
+
+.vi-video {
+  position: relative;
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  color: #FFF;
+
+  &.vi-first {
+    height: 408px;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.01) 75%, rgba(0,0,0,0) 76%);
+        background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%,rgba(0,0,0,0.01) 75%,rgba(0,0,0,0) 76%);
+        background: linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.01) 75%,rgba(0,0,0,0) 76%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=0 );
+    }
+  }
+
+  .vi-video-play-btn {
+    position: absolute;
+    bottom: 0px;
+    left: 25px;
+    top: auto;
+    transform: translateX(0) translateY(50%);
+    background: #FFF;
+
+    span {
+      color: #2c454a;
+    }
+  }
+
+  &-name {
+    margin: 15px;
+    font-family: 'Roboto Slab';
+  }
+}
+
+h1 {
+  margin: 0;
+  padding: 10px;
+  font-weight: 700;
+}
+
+.vi-load-more {
+  text-align: center;
+  background: #DDD;
+}

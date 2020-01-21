@@ -1,0 +1,359 @@
+<ng-container *ngIf="{topMenuStyle: topMenuStyle$ | async, currentPage: currentPage$ | async} as state">
+    <div class="vi-header" *ngIf="state.topMenuStyle !== 'minimized'" [ngClass]="{
+        'vi-transparent': state.topMenuStyle === 'transparent' || state.topMenuStyle === 'profile',
+        'vi-normal': state.topMenuStyle === 'normal'
+    }">
+        <div class="vi-header-top clearfix">
+            <div class="vi-logo pull-left">
+                <a title="Viidium" [routerLink]="['/']">
+                    <div class="vi-mascot">
+                        <span class="vi-icon-mascot">
+                            <span class="path1"></span><span class="path2"></span><span class="path3"></span><span
+                                class="path4"></span><span class="path5"></span><span class="path6"></span><span
+                                class="path7"></span><span class="path8"></span><span class="path9"></span><span
+                                class="path10"></span>
+                        </span>
+                        <span class="vi-icon-mascot-alt">
+                            <span class="path1"></span><span class="path2"></span><span class="path3"></span><span
+                                class="path4"></span><span class="path5"></span><span class="path6"></span><span
+                                class="path7"></span><span class="path8"></span><span class="path9"></span><span
+                                class="path10"></span>
+                        </span>
+                    </div>
+                    <img alt="Viidium" src="assets/images/logo-black.png" class="vi-logo-black"/>
+                    <img alt="Viidium" src="assets/images/logo-white.png" class="vi-logo-white"/>
+                </a>
+            </div>
+
+            <div class="vi-canvas-menu pull-right" (click)="showCanvasMenu()">
+                <i class="vi-icon vi-icon-close"></i>
+            </div>
+
+            <div class="vi-user-menu pull-right" (click)="showLoginForm(login)" *ngIf="!user">
+                <i class="fa fa-user-circle"></i>
+            </div>
+
+
+            <div class="vi-user-menu pull-right" *ngIf="user && state.topMenuStyle !== 'profile'">
+                <a title="{{user.name}}" [routerLink]="['/profile', user.username]">
+                    <div class="vi-user-profile" *ngIf="user.image"
+                         [ngStyle]="{'background-image': 'url(' + user.image + ')'}"></div>
+                    <i class="fa fa-user-circle" *ngIf="!user.image"></i>
+                </a>
+            </div>
+
+            <div class="vi-search-box pull-right">
+                <button class="btn btn-secondary" type="button" (click)="toggleSearch()">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="vi-header-body clearfix" *ngIf="featuredArticles.length > 0 && state.currentPage === 'home'">
+            <div class="vi-header-articles-number">{{featuredArticles.length}}</div>
+            <ul class="vi-articles-carousel" #articlesCarousel>
+                <li *ngFor="let article of featuredArticles; let i = index">
+                    <a title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                        <div class="vi-block-bg" [ngStyle]="{'background-image': 'url(' + article.image + ')'}">
+                            <div class="vi-title">
+                                {{stringUtilities.substr(article.name, 30, false)}}
+                            </div>
+                            <div class="vi-number">
+                                {{i + 1}}
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="vi-header-bottom">
+            <ul #menu class="vi-menu vi-menu-news" *ngIf="state.topMenuStyle !== 'profile'">
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: true}">
+                    <a title="Trending" [routerLink]="['/trending']">Trending</a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: true}" 
+                    *ngIf="this.user?.roles.indexOf('admnistrator') > -1">
+                    <a title="Featured" [routerLink]="['/featured']">Featured</a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: true}">
+                    <a title="Our Picks" [routerLink]="['/our-picks']">Our Picks</a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: false}">
+                    <a title="Collections" [routerLink]="['/collections']">
+                        Collections
+                    </a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: false}">
+                    <a title="Categories" [routerLink]="['/categories']">Categories</a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: true}">
+                    <a title="Videos" [routerLink]="['/videos']">Videos</a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: false}">
+                    <a [routerLink]="['/photos']">Photos</a>
+                </li>
+            </ul>
+
+            <ng-template [ngIf]="state.topMenuStyle === 'profile' && user">
+                <ul class="vi-menu vi-menu-profile">
+                    <li class="vi-left text-right" [routerLinkActive]="['vi-active']"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        <a (click)="submitArticleModal.showModal()">Submit Articles</a>
+                    </li>
+                    <li class="vi-right text-left" [routerLinkActive]="['vi-active']"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        <a (click)="inviteFriendModal.showModal()">Invite Curators</a>
+                    </li>
+                    <li class="vi-user-image">
+                        <a [routerLink]="['/profile', user.username]">
+                            <div class="vi-user-icon" *ngIf="user.image"
+                                 [ngStyle]="{'background-image': 'url(' + user.image + ')'}"></div>
+                            <div class="vi-user-icon" *ngIf="!user.image"></div>
+                        </a>
+                    </li>
+                </ul>
+            </ng-template>
+
+            <ng-container *ngIf="state.currentPage === 'categories'">
+                <ul class="vi-sub-menu">
+                    <li (click)="categoryControlsService.openUpdated()">
+                        <span class="vi-control vi-control-icon-new">New</span>
+                    </li>
+                    <li (click)="categoryControlsService.openAll()">
+                        <span class="vi-control vi-control-icon-all">All</span>
+                    </li>
+                    <li *ngIf="categoryControlsService.hasOpenedCategory()" 
+                        (click)="categoryControlsService.closeAll()">
+                        <span class="vi-control vi-control-icon-close">Close</span>
+                    </li>
+                </ul>
+            </ng-container>
+        </div>
+
+        <div class="vi-header-search-form" [hidden]="!searchActive">
+            <form (submit)="search()">
+                <div class="vi-search-text-block">
+                    <input #searchTextField name="q" type="search" placeholder="Search..."/>
+                </div>
+                <div class="vi-button-block">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="vi-header vi-header-minimized" *ngIf="state.topMenuStyle === 'minimized'">
+        <div class="vi-header-top clearfix">
+            <div class="vi-back pull-left" (click)="goBack()">
+                <i class="fa fa-angle-left"></i>
+            </div>
+
+            <div class="vi-logo pull-left">
+                <a title="Viidium" [routerLink]="['/']">
+                    <img alt="Viidium" src="assets/images/logo-black.png"/>
+                </a>
+            </div>
+
+            <div class="vi-canvas-menu pull-right" (click)="showCanvasMenu()">
+                <i class="vi-icon vi-icon-close"></i>
+            </div>
+
+            <div class="vi-search-box pull-right">
+                <button class="btn btn-secondary" type="button" (click)="toggleSearch()">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<div *ngIf="canvasActive" class="vi-canvas-wrapper">
+    <div class="vi-search-close" (click)="closeCanvas()">
+        <div class="vi-mascot">
+            <span class="vi-icon-mascot">
+                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span
+                    class="path4"></span><span class="path5"></span><span class="path6"></span><span
+                    class="path7"></span><span class="path8"></span><span class="path9"></span><span
+                    class="path10"></span>
+            </span>
+            <span class="vi-icon-close-x"></span>
+        </div>
+    </div>
+
+    <div class="vi-canvas-menu-wrapper">
+        <div class="vi-content-wrapper text-center">
+            <div class="vi-logo">
+                <a title="Viidium" [routerLink]="['/']">
+                    <div><img alt="Viidium" src="assets/images/logo-white.png"/></div>
+                </a>
+            </div>
+
+            <div class="vi-social">
+                <div class="h6 vi-sub-header">Follow Us</div>
+                <div class="vi-social-icons">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                    <a href="#"><i class="fa fa-pinterest"></i></a>
+                </div>
+            </div>
+
+            <ul class="vi-menu">
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: true}">
+                    <a title="Trending" [routerLink]="['/trending']" (click)="this.closeCanvas()">
+                        <span class="vi-icon vi-icon-trending"></span>
+                        <span>Trending</span>
+                    </a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: false}">
+                    <a title="Featured" [routerLink]="['/featured']" (click)="this.closeCanvas()">
+                        <span class="vi-icon vi-icon-our-picks"></span>
+                        <span>Featured</span>
+                    </a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: false}">
+                    <a title="Our Picks" [routerLink]="['/our-picks']" (click)="this.closeCanvas()">
+                        <span class="vi-icon vi-icon-our-picks"></span>
+                        <span>Our Picks</span>
+                    </a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: false}">
+                    <a title="Collections" [routerLink]="['/collections']" (click)="this.closeCanvas()">
+                        <span class="vi-icon vi-icon-collection"></span>
+                        <span>Collections</span>
+                    </a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: false}">
+                    <a title="Categories" [routerLink]="['/categories']" (click)="this.closeCanvas()">
+                        <span class="vi-icon vi-icon-categories"></span>
+                        <span>Categories</span>
+                    </a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: false}">
+                    <a title="Photos" [routerLink]="['/photos']" (click)="this.closeCanvas()">
+                        <span class="vi-icon vi-icon-photo"></span>
+                        <span>Photos</span>
+                    </a>
+                </li>
+                <li [routerLinkActive]="['vi-active']" [routerLinkActiveOptions]="{exact: true}">
+                    <a title="Videos" [routerLink]="['/videos']" (click)="this.closeCanvas()">
+                        <span class="vi-icon vi-icon-video"></span>
+                        <span>Videos</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="vi-links text-center">
+
+                <div class="h6">
+                    <a (click)="contactModal.showModal()">Contact Us</a>
+                </div>
+
+                <div class="h6">
+                    <ng-template [ngIf]="user">
+                        Hi <a title="{{user.name}}"
+                              [routerLink]="['/profile', user.username]"><span>{{user.name}}</span></a>
+                        &nbsp;/&nbsp;
+                        <a (click)="logout()">Logout</a>
+                    </ng-template>
+
+                    <ng-template [ngIf]="!user">
+                        <a title="Login" (click)="showLoginForm(login)">Login</a>
+                        &nbsp;/&nbsp;
+                        <a title="Forgot Password" [routerLink]="['/forgot-password']">Forgot Password</a>
+                    </ng-template>
+                </div>
+
+            </div>
+
+            <div class="vi-subscribe-form-wrapper">
+                <form class="form-inline vi-form-1 vi-subscribe-form" [formGroup]="subscribeForm"
+                      (submit)="onSubscribeSubmit()">
+                    <div class="form-group vi-border clearfix">
+                        <input type="email" placeholder="Your email address..." formControlName="email"
+                               [disabled]="!subscribeForm.valid || subscribeForm.untouched"/>
+                        <button class="pull-right" type="submit">
+                            <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isLoading"></i>
+                            Subscribe
+                        </button>
+                    </div>
+                    <div class="form-group clearfix">
+                <span class="help-block"
+                      *ngIf="subscribeForm.get('email').touched && subscribeForm.get('email').invalid">
+                    <ng-container *ngIf="subscribeForm.get('email').errors['required']">
+                        This field is required!
+                    </ng-container>
+                    <ng-container
+                            *ngIf="!subscribeForm.get('email').errors['required'] && subscribeForm.get('email').errors['email']">
+                        Please enter a valid email
+                    </ng-container>
+                </span>
+                        <span class="help-block" *ngIf="subscribeReseponseText"
+                              [ngClass]="{'vi-error': !subscribeSuccessfully}" [innerHTML]="subscribeReseponseText">
+                </span>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="vi-contact-us text-center">
+        <div class="vi-body">
+            <p>
+                5201 Great America Pkwy, Suite 320,<br/>
+                Santa Clara, CA 95054 - US
+            </p>
+            <p>
+                <a href="tel:+14084790634">(+1) 408 479 0634</a><br/>
+                <a href="mailto:dle@viidia.com">dle@viidia.com</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<ng-template #login>
+    <div class="modal-header">
+        <h3 class="modal-title">User Login</h3>
+        <div class="vi-modal-description">Sign in to contribute for the community !!!</div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="loginRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-danger" role="alert" *ngIf="loginErrorText">
+            {{loginErrorText}}
+        </div>
+        <form [formGroup]="loginForm">
+            <div class="form-group">
+                <input type="text" id="username" formControlName="username" class="form-control"
+                       placeholder="Username/Email" autocomplete="off" autocorrect="off" autocapitalize="off"
+                       spellcheck="false"/>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" formControlName="password" class="form-control"
+                       placeholder="Password"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary vi-full-control" type="submit" (click)="onLoginSubmit()">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isLoading"></i>
+                    Login
+                </button>
+            </div>
+            <div class="text-center">
+                <a title="Forgot Password" [routerLink]="['/forgot-password']">Forgot Password</a>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<submit-article-modal #submitArticleModal></submit-article-modal>
+
+<invite-friend-modal #inviteFriendModal></invite-friend-modal>
+
+<contact-modal #contactModal></contact-modal>
+
+
+<div #scrollTop class="vi-scroll-top">
+    <div class="scroll"><i class="vi-icon-go-to-top-alt-2"></i></div>
+</div>

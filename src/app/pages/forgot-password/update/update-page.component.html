@@ -1,0 +1,61 @@
+<div class="vi-form-page">
+    <div class="vi-form-page-header">
+        <h1 class="vi-title h3">Reset Password</h1>
+        <div class="vi-description">Please enter your new password.</div>
+    </div>
+    <div class="vi-form-page-body">
+        <form [formGroup]="passwordForm" (submit)="onUpdatePasswordSubmit()" *ngIf="!updatePassSuccessfully">
+            <viidia-alert></viidia-alert>
+            <div class="form-group">
+                <input type="password" id="newPassword" class="form-control" formControlName="newPassword" placeholder="New Password*" />
+                <span class="help-block" *ngIf="passwordForm.get('newPassword').touched && passwordForm.get('newPassword').invalid">
+                    <ng-container *ngIf="passwordForm.get('newPassword').errors['required']">
+                        This field is required!
+                    </ng-container>
+                    <ng-container *ngIf="!passwordForm.get('newPassword').errors['required'] &&
+                        passwordForm.get('newPassword').errors['minlength']">
+                        Password must have at least {{passwordForm.get('newPassword').errors['minlength']['requiredLength']}} letters!
+                    </ng-container>
+                </span>
+            </div>
+
+            <div class="form-group">
+                <input type="password" id="confirmNewPassword" class="form-control" formControlName="confirmNewPassword" placeholder="Confirm New Password*" />
+                <span class="help-block" *ngIf="passwordForm.get('confirmNewPassword').touched && passwordForm.get('confirmNewPassword').invalid">
+                    <ng-container *ngIf="passwordForm.get('confirmNewPassword').errors['required']">
+                        This field is required!
+                    </ng-container>
+                </span>
+                <span class="help-block"
+                    *ngIf="passwordForm.get('confirmNewPassword').touched && passwordForm.get('confirmNewPassword').valid
+                        && passwordForm.invalid && passwordForm.errors['mismatch']">
+                    Confirm password does not match!
+                </span>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-primary vi-full-control" type="submit">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isUpdatePasswordLoading"></i>
+                    Update
+                </button>
+            </div>
+        </form>
+
+        <form [formGroup]="loginForm" (submit)="onLoginSubmit()" *ngIf="updatePassSuccessfully">
+            <viidia-alert></viidia-alert>
+            <div class="form-group">
+                <input type="text" id="username" formControlName="username" class="form-control"
+                       placeholder="Username/Email" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" formControlName="password" class="form-control" placeholder="Password" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary vi-full-control" type="submit">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isLoginLoading"></i>
+                    Login
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

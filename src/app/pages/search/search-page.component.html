@@ -1,0 +1,91 @@
+<div *ngIf="query" class="vi-search-results clearfix">
+    <form class="vi-search-form form-inline" (submit)="search()">
+        <div class="input-group mb-2 mr-sm-2">
+            <input type="search" class="form-control" placeholder="Search" aria-describedby="search-addon"
+                #searchTextField value="{{query}}" />
+            <span class="input-group-addon" id="search-addon" (click)="search()">
+                <i class="fa fa-search"></i>
+            </span>
+        </div>
+    </form>
+    <div class="vi-search-overview">
+        <div *ngIf="total > 0" class="vi-search-results-text">
+            Displaying results {{getFromArticle()}} - {{getToArticle()}} out of {{total}} for <strong>{{query}}</strong>
+        </div>
+        <div *ngIf="total === 0">
+            <h4>Your search for {{query}} did not match any documents</h4>
+            <div>
+                <h5>A few suggestions</h5>
+                <ul>
+                    <li>Make sure all words are spelled correctly</li>
+                    <li>Try different keywords</li>
+                    <li>Try more general keywords</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="tag" class="vi-search-results clearfix">
+    <div>Tag: {{tag}}</div>
+    <div class="vi-search-overview">
+        <div *ngIf="total > 0" class="vi-search-results-text">
+            Displaying results {{getFromArticle()}} - {{getToArticle()}} out of {{total}}
+        </div>
+        <div *ngIf="total === 0">
+            <h4>{{tag}} did not match any documents</h4>
+        </div>
+    </div>
+</div>
+
+<ul class="vi-view-mode">
+    <li [ngClass]="{'vi-selected': viewMode === 'column'}" (click)="viewMode = 'column'">
+        <i class="fa fa-th-large" aria-hidden="true"></i>
+    </li>
+    <li [ngClass]="{'vi-selected': viewMode === 'list'}" (click)="viewMode = 'list'">
+        <i class="fa fa-th-list" aria-hidden="true"></i>
+    </li>
+</ul>
+
+<div class="vi-articles row no-gutters" *ngIf="viewMode === 'column'">
+    <div class="col-6 col-xs-6"
+        *ngFor="let article of articles | paginate: {itemsPerPage:articlesPerPage, currentPage: pageNumber, totalItems: total}; let index = index">
+        <div class="vi-article">
+            <div class="vi-article-img"
+                [ngStyle]="{'background-image': 'url(' + (article.image ? article.image : '') + ')'}">
+            </div>
+            <div class="vi-article-wrapper">
+                <h2 class="vi-article-title h5">
+                    <a title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                        {{stringUtilities.substr(article.name, 60)}}
+                    </a>
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="vi-articles vi-articles-list" *ngIf="viewMode === 'list'">
+    <div class="vi-article vi-article-list-item no-gutters"
+        *ngFor="let article of articles | paginate: {itemsPerPage:articlesPerPage, currentPage: pageNumber, totalItems: total}; let index = index">
+        <div class="col-8 col-xs-8">
+            <div class="vi-article-wrapper">
+                <h2 class="vi-article-title h5">
+                    <a title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                        {{stringUtilities.substr(article.name, 60)}}
+                    </a>
+                </h2>
+                <div class="vi-article-body">
+                    {{article.summary}}
+                </div>
+            </div>
+        </div>
+        <div class="col-4 col-xs-4">
+            <div class="vi-article-img vi-article-img-list"
+                [ngStyle]="{'background-image': 'url(' + (article.image ? article.image : '') + ')'}">
+            </div>
+        </div>
+    </div>
+</div>
+
+<pagination-controls (pageChange)="pageChange($event)" *ngIf="total > 0"></pagination-controls>

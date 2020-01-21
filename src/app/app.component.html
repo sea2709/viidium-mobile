@@ -1,0 +1,19 @@
+<ng-container>
+    <div class="vi-app-wrapper" [ngClass]="{
+            'vi-show-header-home': (topMenuStyle$ | async) === 'normal' && (currentPage$ | async) === 'home',
+            'vi-show-header': (topMenuStyle$ | async) === 'normal' && (currentPage$ | async) !== 'home'
+        }">
+        <viidia-header></viidia-header>
+        <div class="vi-app-content">
+            <router-outlet></router-outlet>
+        </div>
+        <viidia-footer></viidia-footer>
+    </div>
+</ng-container>
+
+<div *ngIf="videoPlayer$ | async as videoPlayer" id="vi-video-player">
+    <div *ngIf="videoPlayer.videoPlayerHtml && videoPlayer.isPlayerActive" class="vi-video-player">
+        <div class="vi-close vi-video-player-close" (click)="videoPlayerService.closeVideoPlayer()"></div>
+        <div class="vi-video-player-wrapper" [innerHtml]="videoPlayer.videoPlayerHtml"></div>
+    </div>
+</div>

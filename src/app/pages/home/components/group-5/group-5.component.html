@@ -1,0 +1,170 @@
+<div class="vi-group-articles-5" *ngIf="articles?.length > 0">
+    <div class="vi-row-style-10">
+        <div class="vi-article-wrapper"
+            [ngStyle]="{'background-image': 'url(' + (articles[0].image ? articles[0].image : '') + ')'}">
+            <div *ngIf="articles[0].featured" class="vi-article-featured-label">Featured</div>
+            <div class="vi-article-category" [ngStyle]="{'background-color': articles[0].category.color}"
+                 *ngIf="articles[0]?.category">
+                <a title="{{articles[0].category.name}}"
+                    [routerLink]="['/categories', articles[0].category.id, articles[0]?.category.name | slugify]">
+                    {{articles[0].category.name}}
+                </a>
+            </div>
+            <h2 class="vi-article-title h4">
+                <a title="{{articles[0].name}}" [routerLink]="['/article', articles[0].id, articles[0].name | slugify]">
+                    {{stringUtilities.substr(articles[0].name)}}
+                </a>
+            </h2>
+            <div *ngIf="articles[0].videoHtml" class="vi-video-play-btn"
+                 (click)="videoPlayerService.showVideoPlayer(articles[0].videoHtml)">
+                <span class="glyphicon glyphicon-play"></span>
+            </div>
+            <div class="vi-share">
+                <shares [article]="articles[0]"></shares>
+            </div>
+            <!-- <article-actions [article]="articles[0]"></article-actions> -->
+        </div>
+
+        <div class="vi-article-info-wrapper">
+            <div>
+                <div class="vi-article-summary">{{articles[0].summary}}</div>
+                <div class="vi-article-source">{{articles[0].articleSource?.name}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vi-articles-wrapper">
+        <div class="vi-row-style-11 vi-article">
+            <div class="row vi-flex">
+                <div class="col-xs-5">
+                    <a title="{{articles[1].name}}"
+                        [routerLink]="['/article', articles[1].id, articles[1].name | slugify]" *ngIf="!articles[1].videoHtml">
+                        <div class="vi-article-image"
+                            [ngStyle]="{'background-image': 'url(' + articles[1].image + ')'}">
+                        </div>
+                    </a>
+                    <!-- <article-actions [article]="articles[1]" [direction]="left"></article-actions> -->
+                    <div *ngIf="articles[1].image && articles[1].videoHtml" class="vi-article-image vi-article-wrapper"
+                        [ngStyle]="{'background-image': 'url(' + articles[1].image + ')'}">
+                        <div *ngIf="articles[1].featured" class="vi-article-featured-label">Featured</div>
+                        <div *ngIf="articles[1].videoHtml" class="vi-video-play-btn"
+                            (click)="videoPlayerService.showVideoPlayer(articles[1].videoHtml)">
+                            <span class="glyphicon glyphicon-play"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-7">
+                    <div class="vi-article-info">
+                        <h2 class="h5 vi-article-title">
+                            <a title="{{articles[1].name}}" [routerLink]="['/article', articles[1].id, articles[1].name | slugify]">
+                                {{stringUtilities.substr(articles[1].name)}}
+                            </a>
+                        </h2>
+                        <div class="vi-article-source">{{articles[1].articleSource?.name}}</div>
+                        <div class="vi-share">
+                            <shares [article]="articles[1]"></shares>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="vi-row-style-11 vi-article">
+            <div class="row vi-flex">
+                <div class="col-xs-5">
+                    <a [routerLink]="['/article', articles[2].id, articles[2].name | slugify]" *ngIf="!articles[2].videoHtml">
+                        <div class="vi-article-image"
+                            [ngStyle]="{'background-image': 'url(' + articles[2].image + ')'}">
+                            <div *ngIf="articles[2].featured" class="vi-article-featured-label">Featured</div>
+                        </div>
+                    </a>
+                    <!-- <article-actions [article]="articles[2]" [direction]="left"></article-actions> -->
+                    <div *ngIf="articles[2].image && articles[2].videoHtml" class="vi-article-image vi-article-wrapper"
+                         [ngStyle]="{'background-image': 'url(' + articles[2].image + ')'}">
+                        <div *ngIf="articles[2].videoHtml" class="vi-video-play-btn"
+                            (click)="videoPlayerService.showVideoPlayer(articles[2].videoHtml)">
+                            <span class="glyphicon glyphicon-play"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-7">
+                    <div class="vi-article-info">
+                        <h2 class="h5 vi-article-title">
+                            <a [routerLink]="['/article', articles[2].id, articles[2].name | slugify]">
+                                {{stringUtilities.substr(articles[2].name)}}
+                            </a>
+                        </h2>
+                        <div class="vi-article-source">{{articles[2].articleSource?.name}}</div>
+                        <div class="vi-share">
+                            <shares [article]="articles[2]"></shares>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="vi-row-style-11 vi-article">
+            <div class="row vi-flex">
+                <div class="col-xs-5">
+                    <a [routerLink]="['/article', articles[3].id, articles[3].name | slugify]" *ngIf="!articles[3].videoHtml">
+                        <div class="vi-article-image"
+                            [ngStyle]="{'background-image': 'url(' + articles[3].image + ')'}">
+                            <div *ngIf="articles[3].featured" class="vi-article-featured-label">Featured</div>
+                        </div>
+                    </a>
+                    <!-- <article-actions [article]="articles[3]" [direction]="left"></article-actions> -->
+                    <div *ngIf="articles[3].image && articles[3].videoHtml" class="vi-article-image vi-article-wrapper"
+                         [ngStyle]="{'background-image': 'url(' + articles[3].image + ')'}">
+                        <div *ngIf="articles[3].videoHtml" class="vi-video-play-btn"
+                            (click)="videoPlayerService.showVideoPlayer(articles[3].videoHtml)">
+                            <span class="glyphicon glyphicon-play"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-7">
+                    <div class="vi-article-info">
+                        <h2 class="h5 vi-article-title">
+                            <a [routerLink]="['/article', articles[3].id, articles[3].name | slugify]">
+                                {{stringUtilities.substr(articles[3].name)}}
+                            </a>
+                        </h2>
+                        <div class="vi-article-source">{{articles[3].articleSource?.name}}</div>
+                        <div class="vi-share">
+                            <shares [article]="articles[3]"></shares>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vi-row-style-10">
+        <div class="vi-article-wrapper"
+            [ngStyle]="{'background-image': 'url(' + (articles[4].image ? articles[4].image : '') + ')'}">
+            <div *ngIf="articles[4].featured" class="vi-article-featured-label">Featured</div>
+            <div class="vi-article-category" [ngStyle]="{'background-color': articles[4].category?.color}"
+                 *ngIf="articles[4]?.category">
+                <a [routerLink]="['/categories', articles[4].category.id, articles[4]?.category.name | slugify]">
+                    {{articles[4].category.name}}
+                </a>
+            </div>
+            <h2 class="vi-article-title h4">
+                <a [routerLink]="['/article', articles[4].id, articles[4].name | slugify]">
+                    {{stringUtilities.substr(articles[4].name)}}
+                </a>
+            </h2>
+            <div *ngIf="articles[4].videoHtml" class="vi-video-play-btn"
+                 (click)="videoPlayerService.showVideoPlayer(articles[4].videoHtml)">
+                <span class="glyphicon glyphicon-play"></span>
+            </div>
+            <!-- <article-actions [article]="articles[4]"></article-actions> -->
+        </div>
+
+        <div class="vi-article-info-wrapper">
+            <div>
+                <div class="vi-article-summary">{{articles[4].summary}}</div>
+                <div class="vi-article-source">{{articles[4].articleSource?.name}}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="vi-related-users clearfix" *ngIf="article.curatedBy || article.publishedBy || article.contributedBy">
+    <div class="vi-curated-by pull-right" *ngIf="article.curatedBy">
+        <div class="pull-left vi-text">Curated by</div>
+        <div class="pull-left">
+            <a title="{{article.curatedBy.name}}" [routerLink]="['/profile', article.curatedBy.username]">
+                <div class="vi-user-image" *ngIf="article.curatedBy.image"
+                     [ngStyle]="{'background-image': 'url(' + article.curatedBy.image + ')'}"></div>
+                <span *ngIf="!article.curatedBy.image">{{article.curatedBy.name}}</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="vi-published-by pull-right" *ngIf="article.publishedBy">
+        <div class="pull-left vi-text">Published by</div>
+        <div class="pull-left">
+            <a title="{{article.publishedBy.name}}" [routerLink]="['/profile', article.publishedBy.username]">
+                <div class="vi-user-image" *ngIf="article.publishedBy.image"
+                     [ngStyle]="{'background-image': 'url(' + article.publishedBy.image + ')'}"></div>
+                <span *ngIf="!article.publishedBy.image">{{article.publishedBy.name}}</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="vi-contributed-by pull-right" *ngIf="article.contributedBy">
+        <div class="pull-left vi-text">Contributed by</div>
+        <div class="pull-left">
+            <a title="{{article.contributedBy.name}}" [routerLink]="['/profile', article.contributedBy.username]">
+                <div class="vi-user-image" *ngIf="article.contributedBy.image"
+                     [ngStyle]="{'background-image': 'url(' + article.contributedBy.image + ')'}"></div>
+                <span *ngIf="!article.contributedBy.image">{{article.contributedBy.name}}</span>
+            </a>
+        </div>
+    </div>
+</div>

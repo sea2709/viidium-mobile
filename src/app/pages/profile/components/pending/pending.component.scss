@@ -1,0 +1,51 @@
+.vi-submissions {
+  margin: 0 15px;
+
+  .vi-header {
+    text-align: center;
+    font-family: 'Roboto Slab';
+  }
+
+  + .vi-submissions {
+    margin-top: 15px;
+    border-top: 1px solid #666;
+  }
+}
+
+.vi-articles {
+  list-style-type: none;
+  padding-left: 0;
+
+  > li {
+    + li {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #CCC;
+    }
+  }
+
+  .vi-index {
+    position: relative;
+    width: 30px;
+    font-family: 'Playfair Display';
+    font-size: 2em;
+  }
+
+  .vi-link {
+    width: calc(100% - 30px);
+    padding-left: 15px;
+    word-wrap: break-word;
+
+    a {
+      color: #000;
+    }
+  }
+}
+
+#link {
+  word-break: break-all;
+}
+
+.vi-buttons {
+  margin: 10px 0;
+}

@@ -1,0 +1,32 @@
+.vi-new-collection {
+  position: fixed;
+  bottom: 55px;
+  right: 60px;
+  width: 40px;
+  height: 40px;
+  background: #305e6c;
+  color: #FFF;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.vi-header-sort-options {
+  position: absolute;
+  top: 150px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 1;
+  color: #FFF;
+
+  span {
+    padding: 2.5px 5px;
+    display: inline-block;
+    margin: 10px;
+
+    &.selected {
+      border: 1px solid #FFF;
+    }
+  }
+}

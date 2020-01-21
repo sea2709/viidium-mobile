@@ -1,0 +1,165 @@
+<h1 class="vi-title text-center h4">
+    Pending Submissions
+</h1>
+
+<div class="vi-articles-wrapper">
+    <ngx-loading [show]="isApproveRejectLoading"></ngx-loading>
+
+    <div class="container">
+        <viidia-alert></viidia-alert>
+    </div>
+
+    <div class="vi-controls" *ngIf="submissions.length > 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-2 col-xs-2">
+                    <div class="text-center vi-check" (click)="selectSubmission(0)"
+                        [ngClass]="{'selected': selectedSubmissionIds.length === submissions.length}">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="col-10 col-xs-10">
+                    <div class="vi-top-buttons">
+                        <div>
+                            <a (click)="approveSelected()">
+                                <i class="fa fa-check"></i>
+                                Approve
+                            </a>
+                        </div>
+                        <div>
+                            <a (click)="rejectSelected()">
+                                <i class="fa fa-times"></i>
+                                Reject
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="vi-articles" infinite-scroll (scrolled)="onScrollDown()">
+        <li *ngFor="let submission of submissions; index as i" class="container">
+            <div class="row">
+                <div class="col-2 col-xs-2">
+                    <div class="vi-index text-center">{{i + 1}}</div>
+                    <div class="text-center vi-check" (click)="selectSubmission(submission.id)"
+                        [ngClass]="{'selected': selectedSubmissionIds.indexOf(submission.id) > -1}">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="col-10 col-xs-10">
+                    <div class="row">
+                        <div class="vi-link">
+                            <a [href]="submission.data.article_link" target="_blank">{{submission.data.article_link}}</a>
+                        </div>
+                        <div class="vi-colections" *ngIf="submission.data.collections">
+                            <div>Collections:</div>
+                            <ul>
+                                <li *ngFor="let collection of submission.data.collections | keyvalue">
+                                    <a [routerLink]="['/collections', collection.value.nid[0].value, collection.value.title[0].value | slugify]">
+                                        {{collection.value.title[0].value}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="vi-tags" *ngIf="submission.data.tags">
+                            Tags: {{submission.data.tags}}
+                        </div>
+                        <div class="vi-say-something" *ngIf="submission.data.say_something">
+                            {{submission.data.say_something}}
+                        </div>
+                        <div class="clearfix vi-user-wrapper">
+                            <div class="pull-left">
+                                <div class="vi-user" *ngIf="submission.user">
+                                    <div class="pull-left vi-text">Curated by</div>
+                                    <div class="pull-left vi-user-info">
+                                        <a [routerLink]="['/profile', submission.user.username]">
+                                            <div class="vi-user-image pull-left" *ngIf="submission.user.image"
+                                                 [ngStyle]="{'background-image': 'url(' + submission.user.image + ')'}"></div>
+                                            <div class="vi-text pull-left">{{submission.user.name}}</div>
+                                        </a>
+                                    </div>
+                                    <div class="pull-left vi-text">
+                                        on {{ displayDate(submission.created) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <i class="fa fa-sticky-note" *ngIf="submission.note"></i>
+                            </div>
+                        </div>
+                        <div class="vi-buttons">
+                            <div>
+                                <a (click)="approve(submission.id)">
+                                    <i class="fa fa-check"></i>
+                                    Approve
+                                </a>
+                            </div>
+                            <div>
+                                <a (click)="reject(submission.id)">
+                                    <i class="fa fa-times"></i>
+                                    Reject
+                                </a>
+                            </div>
+                            <div>
+                                <a (click)="note(submission.id)">
+                                    <i class="fa fa-sticky-note"></i>
+                                    Note
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="container text-center" *ngIf="submissions.length === 0">
+        All submissions are approved!
+    </div>
+</div>
+
+<div class="vi-load-more" *ngIf="isLoading">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+    Loading more items ...
+</div>
+
+<ng-template #addNoteModal>
+    <div class="modal-header">
+        <h3 class="modal-title">Add Note</h3>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" *ngIf="activeSubmission">
+        <viidia-alert></viidia-alert>
+        <form #addNoteForm="ngForm" (submit)="onAddNoteSubmit()">
+            <div class="form-group">
+                <label for="link">Link</label>
+                <div id="link">
+                    <a [href]="activeSubmission.data.article_link" target="_blank">
+                        {{activeSubmission.data.article_link}}
+                    </a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="curatedBy">Curated By</label>
+                <div id="curatedBy">
+                    <a [routerLink]="['/profile', activeSubmission.user.username]">
+                        {{activeSubmission.user.name}}
+                    </a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="note">Note</label>
+                <textarea id="note" class="form-control" [(ngModel)]="activeSubmission.note" name="note"></textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary vi-full-control">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isAddNoteLoading"></i>
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

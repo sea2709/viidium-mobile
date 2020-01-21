@@ -1,0 +1,32 @@
+::ng-deep {
+  .vi-border-top-row {
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 1px solid #e0e0e0;
+  }
+}
+
+.vi-articles {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0;
+
+  li {
+    position: relative;
+  }
+}
+
+.vi-articles-2 {
+  .vi-border-row {
+    border-top: 1px solid #000;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    [class^="col-"] {
+      &:nth-child(2n) {
+        border-left: 1px solid #000;
+      }
+    }
+  }
+}
+

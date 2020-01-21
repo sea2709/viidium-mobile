@@ -1,0 +1,48 @@
+<div class="vi-latest-articles">
+    <ng-container *ngFor="let latestArticleCollection of latestArticlesCollections; let i = index">
+        <ng-container *ngIf="i === 0">
+            <group-1 [articles]="latestArticleCollection.getGroup1Articles()"></group-1>
+
+            <group [groups]="[firstGroup]" *ngIf="firstGroup"></group>
+
+            <group-2 [articles]="latestArticleCollection.getGroup2Articles()"></group-2>
+
+            <photos></photos>
+
+            <group [groups]="groups" *ngIf="groups"></group>
+
+            <group-3 [articles]="latestArticleCollection.getGroup3Articles()"></group-3>
+
+            <group-4 [articles]="latestArticleCollection.getGroup4Articles()"></group-4>
+
+            <group [groups]="[lastGroup]" *ngIf="lastGroup"></group>
+
+            <group-5 [articles]="latestArticleCollection.getGroup5Articles()"></group-5>
+
+            <div *ngFor="let cat of categories" class="vi-categories">
+                <category [category]="cat" *ngIf="cat?.articles"></category>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="i > 0">
+            <group-1 [articles]="latestArticleCollection.getGroup1Articles()"></group-1>
+
+            <group-2 [articles]="latestArticleCollection.getGroup2Articles()"></group-2>
+
+            <group-3 [articles]="latestArticleCollection.getGroup3Articles()" [showVideos]="false"></group-3>
+
+            <group-4 [articles]="latestArticleCollection.getGroup4Articles()"></group-4>
+
+            <group-5 [articles]="latestArticleCollection.getGroup5Articles()"></group-5>
+
+            <div *ngFor="let cat of categories" class="vi-categories">
+                <category [category]="cat" *ngIf="cat?.articles"></category>
+            </div>
+        </ng-container>
+    </ng-container>
+
+    <div class="vi-load-more" *ngIf="isLoading">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        Loading more items ...
+    </div>
+</div>

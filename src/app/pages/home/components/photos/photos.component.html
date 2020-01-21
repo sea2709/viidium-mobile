@@ -1,0 +1,30 @@
+<div class="vi-photos-block" *ngIf="photoSets?.length > 0">
+    <div class="vi-header clearfix">
+        <h4 class="pull-left text h5">Photos we love</h4>
+        <div class="pull-right vi-view-all">
+            <a title="Photos" [routerLink]="['/photos']">
+                View all
+                <i class="fa fa-angle-double-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="vi-block-description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin imperdiet eros nec lectus semper, ut pulvinar neque lobortis. Maecenas sollicitudin imperdiet faucibus.
+    </div>
+
+    <div class="vi-photos-block-wrapper" *ngIf="photoSets">
+        <ul class="vi-photo-carousel" #photoCarousel>
+            <li *ngFor="let photoSet of photoSets">
+                <div class="vi-photo-set" [ngStyle]="{'background-image': 'url(' + photoSet.photos[0].src + ')'}">
+                </div>
+                <div class="vi-photo-set-name">
+                    <a title="{{photoSet.name}}" [routerLink]="['/photos', photoSet.id, photoSet.name | slugify]">
+                        <h3 class="h5">{{photoSet.name}}</h3>
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <div #photoCarouselFrame class="vi-photo-set-border"></div>
+    </div>
+</div>

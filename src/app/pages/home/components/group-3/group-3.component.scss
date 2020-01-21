@@ -1,0 +1,23 @@
+.vi-articles {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.vi-articles-2 {
+  margin: 0 15px;
+
+  .vi-border-row {
+    margin: 15px 0;
+    [class^="col-"] {
+      &:nth-child(2n) {
+        border-left: 1px solid #000;
+      }
+    }
+
+    + .vi-border-row {
+      border-top: 5px solid #000;
+      padding-top: 15px;
+    }
+  }
+}

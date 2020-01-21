@@ -1,0 +1,131 @@
+.vi-search-results {
+  padding: 15px;
+}
+
+.vi-search-overview {
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+.vi-articles {
+  margin-left: 7.5px;
+  margin-right: 7.5px;
+  margin-top: -10px;
+
+  > .vi-article {
+    + .vi-article {
+      padding-top: 15px;
+      border-top: 1px solid #666;
+    }
+  }
+
+  &-list {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+
+.vi-article-img {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+
+  &-list {
+    height: 80px;
+    margin-left: 15px;
+  }
+}
+
+.vi-article-wrapper {
+  padding: 15px;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  .vi-article-title {
+    margin-top: 0;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+
+    a {
+      color: #000;
+    }
+  }
+}
+
+.vi-featured-article {
+  .vi-article-cover {
+    min-height: 300px;
+  }
+}
+
+.vi-article {
+  padding: 7.5px;
+  overflow: hidden;
+  height: 275px;
+
+  &-list-item {
+    height: auto;
+    padding: 0;
+  }
+
+  .vi-article-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &-body {
+    font-size: 13.5px;
+    color: #666;
+  }
+}
+
+.vi-article-source {
+  margin-bottom: 10px;
+}
+
+.vi-search-results-text {
+  font-size: 0.85em;
+  margin: 5px 0;
+}
+
+.vi-view-mode {
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 30px;
+  color: #666;
+
+  li {
+    padding: 10px;
+  }
+
+  .vi-selected {
+    border: 1px solid #666;
+  }
+}
+
+
+:host {
+  ::ng-deep {
+      .ngx-pagination {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 0.75em;
+        padding-left: 0;
+        text-align: center;
+        font-size: 18px;
+
+        .current {
+          background: #2c454a;
+        }
+
+        li {
+          margin: 0 7.5px;
+        }
+      }
+  }
+}

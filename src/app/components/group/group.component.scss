@@ -1,0 +1,213 @@
+@import "~variables.scss";
+
+$speical-group-spacing: $article-padding;
+
+.vi-group {
+  border: 1px solid #666;
+  margin: 40px 15px 25px;
+  background: #F1F1F1;
+
+  .vi-article-title {
+    font-family: 'Roboto Slab';
+    font-weight: 700;
+  }
+
+  .vi-article-source, .vi-article-summary {
+    margin: 10px 0;
+  }
+
+  .vi-primary-article {
+    margin: 0 10px;
+    padding-bottom: 15px;
+    border-bottom: 3px double #333;
+
+    .vi-article-wrapper {
+      height: 160px;
+      width: 80%;
+      margin: -15px auto 0;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .vi-video-play-btn {
+      top: 50%;
+      left: 50%;
+
+      transform: translateX(-50%) translateY(-50%);
+      -webkit-transform: translateX(-50%) translateY(-50%);
+      -moz-transform: translateX(-50%) translateY(-50%);
+    }
+  }
+
+  .vi-group-articles-info {
+    margin-top: -12.5px;
+  }
+
+  .vi-related-articles {
+    text-align: center;
+    margin: 0 10px;
+
+    .vi-header {
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 700;
+      display: inline-block;
+      background: #DDD;
+      padding: 0 15px;
+    }
+  }
+
+  .vi-articles {
+    list-style-type: none;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 0;
+    z-index: 1;
+    position: relative;
+    text-align: center;
+
+    .vi-article {
+      padding: 10px 0 10px;
+
+      + .vi-article {
+        border-top: 1px dashed #666;
+      }
+
+      .vi-article-title {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.vi-special-group {
+  .vi-primary-article {
+    position: relative;
+    margin: 0;
+
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    &:before {
+      background: -moz-linear-gradient(top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 50%);
+      background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 50%);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 50%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 );
+      z-index: 1;
+    }
+
+    &:after {
+      background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
+      background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 );
+    }
+
+    .vi-article-wrapper {
+      height: 300px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .vi-article-info {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: $speical-group-spacing;
+      z-index: 2;
+      color: #FFF;
+
+      a, .vi-article-source {
+        color: #FFF;
+      }
+
+      .vi-article-title {
+        margin-bottom: 0;
+        margin-top: $speical-group-spacing/2;
+      }
+    }
+
+    .vi-article-number {
+      margin-bottom: $speical-group-spacing/2;
+      font-size: 1.5em;
+    }
+  }
+
+  .vi-articles {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+
+  .vi-related-articles {
+    background: #1c2129;
+    color: #FFF;
+
+    a {
+      color: #FFF;
+    }
+
+    li {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      padding: $speical-group-spacing;
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.75);
+        display: block;
+      }
+
+      > * {
+        z-index: 1;
+      }
+
+      &.vi-read-more {
+        display: block;
+        padding: 10px 0;
+        font-size: 13px;
+        font-weight: 300;
+
+        &:before {
+          content: normal;
+        }
+
+        .vi-ic {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .vi-article-title {
+      font-weight: 300;
+      margin-bottom: 0;
+    }
+
+    .vi-article-number {
+      font-size: 1.25em;
+      margin-right: $speical-group-spacing;
+      line-height: 1;
+    }
+
+    .vi-article-source {
+      line-height: 1;
+      margin-bottom: $speical-group-spacing/2;
+    }
+  }
+}
+

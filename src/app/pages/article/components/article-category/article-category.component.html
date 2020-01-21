@@ -1,0 +1,13 @@
+<div class="vi-article-category-wrapper" *ngIf="otherCategories" [@categoryState]="state">
+    <div class="vi-current-category" [ngStyle]="{'background-color': article.category.color}" (click)="toggleState()">
+        {{article.category.name}}
+    </div>
+    <ul class="vi-other-categories" [ngStyle]="{'border-top-color': article.category.color}">
+        <li *ngFor="let cat of otherCategories" class="vi-article-category"
+            [ngStyle]="{'background-color': cat.color}">
+            <a title="{{cat.name}}" [routerLink]="['/categories', cat.id, cat.name | slugify]">
+                {{cat.name}}
+            </a>
+        </li>
+    </ul>
+</div>

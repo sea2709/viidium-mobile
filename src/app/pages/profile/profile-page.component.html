@@ -1,0 +1,109 @@
+<ng-template [ngIf]="profileUser">
+    <div class="vi-user-info-wrapper">
+        <div class="vi-user-cover-photo"
+             [ngStyle]="{'background-image': 'url(' + (profileUser.coverPhoto ? profileUser.coverPhoto : '') + ')'}"></div>
+
+        <div class="vi-user-header-wrapper">
+            <div class="vi-user-menu-item" *ngIf="isViewingYourself()">
+                <a (click)="submitArticleModal.showModal()">Submit</a>
+            </div>
+            <div class="vi-user-image-block">
+                <a [routerLink]="['/profile', profileUser.username]">
+                    <div class="vi-user-image" *ngIf="profileUser.image"
+                         [ngStyle]="{'background-image': 'url(' + profileUser.image + ')'}">
+                    </div>
+                    <div class="vi-user-image" *ngIf="!profileUser.image"></div>
+                </a>
+                <a class="h6 vi-user-edit" [routerLink]="['/edit-profile']" *ngIf="isViewingYourself()">
+                    <i class="fa fa-edit"></i>
+                </a>
+            </div>
+            <div class="vi-user-menu-item" *ngIf="isViewingYourself()">
+                <a (click)="inviteFriendModal.showModal()">Invite</a>
+            </div>
+        </div>
+
+        <div class="vi-user-info text-center">
+            <div class="vi-user-name">
+                <h1 class="h2">{{profileUser.name}}</h1>
+            </div>
+
+            <ul class="vi-user-roles">
+                <li *ngIf="profileUser.roles.indexOf('publisher') > -1">Publisher</li>
+                <li *ngIf="profileUser.roles.indexOf('curator') > -1">Curator</li>
+            </ul>
+
+            <h2 class="vi-user-description h6" *ngIf="profileUser.description">
+                {{profileUser.description}}
+            </h2>
+
+            <viidia-alert></viidia-alert>
+
+            <div class="vi-editoral-board-controls" *ngIf="isViewingYourself() && loggedInUser.roles.indexOf('editorial_board') > -1">
+                <ul class="controls">
+                    <li>
+                        <a [routerLink]="['/pending-submissions']">Pending Submissions</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="submittedArticlesInfo && profileUser" class="h6 vi-user-posts-info">
+        <tabset>
+            <tab id="view-all" *ngIf="profileUser.isEditor()">
+                <ng-template tabHeading>
+                    <div class="vi-info">
+                        <div class="vi-number">
+                            {{submittedArticlesInfo.totalCuratedArticles + submittedArticlesInfo.totalPublishedArticles + submittedArticlesInfo.totalContributedArticles}}
+                        </div>
+                        <div class="vi-text">all</div>
+                    </div>
+                </ng-template>
+                <posts [user]="profileUser" [statuses]="['curated', 'published', 'contributed']"></posts>
+            </tab>
+
+            <tab id="curated" *ngIf="profileUser.roles.indexOf('curator') > -1">
+                <ng-template tabHeading>
+                    <div class="vi-info">
+                        <div class="vi-number">
+                            {{submittedArticlesInfo.totalCuratedArticles}}
+                        </div>
+                        <div class="vi-text">curated</div>
+                    </div>
+                </ng-template>
+                <posts [user]="profileUser" [statuses]="['curated']" [showStatus]="false"></posts>
+            </tab>
+
+            <tab id="published" *ngIf="profileUser.roles.indexOf('publisher') > -1">
+                <ng-template tabHeading>
+                    <div class="vi-info">
+                        <div class="vi-number">
+                            {{submittedArticlesInfo.totalPublishedArticles}}
+                        </div>
+                        <div class="vi-text">published</div>
+                    </div>
+                </ng-template>
+                <posts [user]="profileUser" [statuses]="['published']" [showStatus]="false"></posts>
+            </tab>
+
+            <tab id="pending"
+                 *ngIf="(profileUser.roles.indexOf('contributor') > -1 || profileUser.roles.indexOf('publisher') > -1 || profileUser.roles.indexOf('curator') > -1)
+                && isViewingYourself()">
+                <ng-template tabHeading>
+                    <div class="vi-info">
+                        <div class="vi-number">
+                            {{submittedArticlesInfo.totalAwaitingArticles}}
+                        </div>
+                        <div class="vi-text">pending</div>
+                    </div>
+                </ng-template>
+                <pending #pendingPosts [user]="profileUser" (updateArticles)="updateArticlesInfo()"></pending>
+            </tab>
+        </tabset>
+    </div>
+</ng-template>
+
+<submit-article-modal (modalClosed)="updateArticlesInfo()" #submitArticleModal></submit-article-modal>
+
+<invite-friend-modal #inviteFriendModal></invite-friend-modal>

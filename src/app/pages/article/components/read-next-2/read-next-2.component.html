@@ -1,0 +1,42 @@
+<div class="vi-read-next-wrapper" *ngIf="article">
+    <h3 class="vi-header text-center h4" [ngStyle]="{'color': article.category.color}">
+        Read Next
+    </h3>
+    <div class="vi-article-image" [ngStyle]="{'background-image': 'url(' + (article.teaserImage ? article.teaserImage : '') + ')'}">
+        <div class="vi-article-info">
+            <div class="text-center">
+                <div class="vi-article-category" [ngStyle]="{'background-color': article.category.color}" *ngIf="article?.category">
+                    <a title="{{article.category.name}}"
+                        [routerLink]="['/categories', article.category.id, article?.category.name | slugify]">
+                        {{article.category.name}}
+                    </a>
+                </div>
+            </div>
+
+            <div class="vi-article-title">
+                <h2 class="h4">
+                    <a title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                        {{article.name}}
+                    </a>
+                </h2>
+            </div>
+
+            <div class="vi-created-date">{{article.createdDate | date: 'MMMM d, y'}}</div>
+
+            <div class="vi-article-source">{{article.articleSource?.name}}</div>
+
+            <div class="vi-social-shares">
+                <a md-raised-button shareButton="facebook"><i class="fa fa-facebook"></i></a>
+                <a md-raised-button shareButton="twitter"><i class="fa fa-twitter"></i></a>
+                <a md-raised-button href="mailto:?to=&subject=Viidia - {{article.name}}&body={{doc.location.href}}">
+                    <i class="fa fa-envelope"></i>
+                </a>
+            </div>
+
+            <div *ngIf="article.videoHtml" class="vi-video-play"
+                 (click)="videoPlayerService.showVideoPlayer(article.videoHtml)">
+                <span class="glyphicon glyphicon-play"></span>
+            </div>
+        </div>
+    </div>
+</div>

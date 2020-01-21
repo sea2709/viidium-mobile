@@ -1,0 +1,15 @@
+<div *ngIf="otherCategories && this.otherCategories.length > 0">
+    <h3 class="vi-header text-center" [ngStyle]="{'color': category.color}">
+        See Also
+    </h3>
+
+    <ul class="vi-categories">
+        <li *ngFor="let cat of otherCategories" class="vi-category col-xs-6">
+            <a title="{{cat.name}}" [routerLink]="['/categories', cat.id, cat.name | slugify]">
+                <div class="vi-frame">
+                    <img src="{{cat.thumbnail}}" alt="{{cat.name}}" />
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>

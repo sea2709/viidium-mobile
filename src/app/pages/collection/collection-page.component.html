@@ -1,0 +1,145 @@
+<h1 #collectionHeader class="h3 text-center text-uppercase vi-collection-header">
+    {{collection?.name}}
+    <span class="vi-collection-is-private" *ngIf="collection?.isPrivate">[Private]</span>
+</h1>
+<h4 class="vi-collection-description text-center" *ngIf="collection?.body?.length > 0">
+    {{collection.body}}
+</h4>
+<viidia-alert></viidia-alert>
+<div class="text-center" (click)="editCollection()"
+    *ngIf="collection && loggedInUser && loggedInUser.canDeleteCollection(collection)">
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+    Edit Collection
+</div>
+<ul class="vi-articles" *ngIf="collection?.articles" infinite-scroll (scrolled)="onScrollDown()">
+    <div class="vi-article" *ngFor="let article of collection.articles; let index = index">
+        <div class="vi-article-cover" [ngStyle]="{'background-image': 'url(' + article.image + ')'}">
+            <div *ngIf="article.videoHtml" class="vi-video-play" (click)="videoPlayerService.showVideoPlayer(article.videoHtml)">
+                <span class="glyphicon glyphicon-play"></span>
+            </div>
+            <div class="vi-article-category" [ngStyle]="{'background-color': article.category.color}"
+                 *ngIf="article?.category">
+                <a title="{{article.category.name}}"
+                    [routerLink]="['/categories', article.category.id, article?.category.name | slugify]">
+                    {{article.category.name}}
+                </a>
+            </div>
+            <div class="vi-share">
+                <shares [article]="article"></shares>
+            </div>
+            <div class="vi-remove" (click)="onRemoveArticle(article)" 
+                *ngIf="loggedInUser && loggedInUser.canRemoveArticleFromCollection(collection)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="vi-article-wrapper">
+            <h3 class="vi-article-name h4">
+                <a title="{{article.name}}" (click)="viewArticleDetails()"
+                    [routerLink]="['/article', article.id, article.name | slugify]">
+                    {{stringUtilities.substr(article.name)}}
+                </a>
+            </h3>
+            <div class="vi-article-summary">{{article.summary}}</div>
+        </div>
+    </div>
+</ul>
+
+<div class="text-center" (click)="deleteCollection()"
+    *ngIf="collection && (collection.articles.length === 0) && loggedInUser.canDeleteCollection(collection)">
+    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+    Delete Collection
+</div>
+
+<ng-template #collectionModal>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit Collection</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="onCloseCollectionForm()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <viidia-alert></viidia-alert>
+        <form [formGroup]="collectionForm" (submit)="onCollectionSubmit()">
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="title" id="tile" placeholder="Title*" />
+                <span class="help-block" *ngIf="collectionForm.get('title').touched
+                    && collectionForm.get('title').invalid && collectionForm.get('title').errors['required']">
+                    This field is required!
+                </span>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" formControlName="description" id="description" placeholder="Description"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" formControlName="is_private"/> Is Private
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary vi-full-control">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<div #articleBottomBar class="vi-menu-bottom-bar">
+    <a [routerLink]="['/']" title="Viidium">
+        <i class="fa fa-home"></i>
+        <div class="vi-ic-text">Home</div>
+    </a>
+
+    <a (click)="categoriesState = 'active'" *ngIf="categories" class="vi-icon">
+        <i class="vi-icon-categories" aria-hidden="true"></i>
+        <div class="vi-ic-text">Categories</div>
+    </a>
+    <a (click)="collectionsState = 'active'" class="vi-icon">
+        <i class="vi-icon-collection" aria-hidden="true"></i>
+        <div class="vi-ic-text">Collections</div>
+    </a>
+    <a (click)="photoSetsState = 'active'" *ngIf="photoSets" class="vi-icon">
+        <i class="vi-icon-photo" aria-hidden="true"></i>
+        <div class="vi-ic-text">Photos</div>
+    </a>
+    <a (click)="headerService.toggleSearch()">
+        <i class="fa fa-search"></i>
+        <div class="vi-ic-text">Search</div>
+    </a>
+</div>
+
+<div class="vi-swipeup-lightbox" *ngIf="categories"
+     [ngClass]="{'vi-active': categoriesState === 'active'}" [@swipeUpState]="categoriesState">
+    <div class="vi-close-btn" (click)="categoriesState = 'inactive'">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </div>
+    <div class="vi-categories">
+        <ng-container *ngFor="let cat of categories">
+            <category [category]="cat" *ngIf="cat?.articles"></category>
+        </ng-container>
+    </div>
+</div>
+
+<div class="vi-swipeup-lightbox" [ngClass]="{'vi-active': collectionsState === 'active'}"
+     [@swipeUpState]="collectionsState">
+    <div class="vi-close-btn" (click)="collectionsState = 'inactive'">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </div>
+    <collections></collections>
+</div>
+
+<div class="vi-swipeup-lightbox" *ngIf="photoSets?.length > 0"
+     [ngClass]="{'vi-active': photoSetsState === 'active'}" [@swipeUpState]="photoSetsState">
+    <div class="vi-close-btn" (click)="photoSetsState = 'inactive'">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </div>
+    <div class="vi-photosets-container">
+        <div class="vi-gallery" id="gallery">
+            <a [routerLink]="['/photos', photoSet.id, photoSet.name | slugify]" title="{{photoSet.name}}"
+               *ngFor="let photoSet of photoSets" class="vi-photo-set">
+                <div class="vi-photo"
+                     [ngStyle]="{'background-image': 'url(' + (photoSet.photos[0].src ? photoSet.photos[0].src : '') + ')'}">
+                    <h1 class="h5 vi-name">{{photoSet.name}}</h1>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

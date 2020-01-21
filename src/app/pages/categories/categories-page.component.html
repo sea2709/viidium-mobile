@@ -1,0 +1,37 @@
+<div class="vi-header-image-white">
+    <img src="assets/images/header-images/categories-white.png" alt="Categories">
+</div>
+
+<div class="vi-header-image-scroll vi-menu-bottom-bar">
+    <a [routerLink]="['/']" title="Viidium">
+        <i class="fa fa-home"></i>
+        <div class="vi-ic-text">Home</div>
+    </a>
+
+    <a [routerLink]="['/trending']" title="Trending">
+        <div class="vi-icon-trending"></div>
+        <div class="vi-ic-text">Trending</div>
+    </a>
+
+    <a [routerLink]="['/our-picks']" title="Our Picks">
+        <div class="vi-icon-our-picks"></div>
+        <div class="vi-ic-text">Our Picks</div>
+    </a>
+
+    <a [routerLink]="['/collections']" title="Collections">
+        <div class="vi-icon-collection"></div>
+        <div class="vi-ic-text">Collections</div>
+    </a>
+
+    <a (click)="headerService.toggleSearch()">
+        <i class="fa fa-search"></i>
+        <div class="vi-ic-text">Search</div>
+    </a>
+</div>
+
+<div class="vi-categories" *ngIf="categories">
+    <ng-container *ngFor="let cat of categories; first as isFirst">
+        <category [category]="cat" *ngIf="cat?.articles" [ngClass]="{'vi-first': isFirst}"
+            (clickArticleDetailsPage)="viewArticleDetails(cat)"></category>
+    </ng-container>
+</div>

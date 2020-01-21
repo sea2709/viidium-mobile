@@ -1,0 +1,72 @@
+@import "~variables.scss";
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i|Roboto+Slab:300,400,700|Roboto:300,400,500,700,900|Roboto+Condensed:300,400,700');
+
+.vi-app-wrapper {
+  -webkit-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  transition: all .3s ease;
+
+  margin-bottom: 42.5px;
+
+  .vi-app-content {
+    min-height: calc(100vh - 200px);
+    position: relative;
+  }
+
+  &.vi-show-header-home {
+    margin-top: 182px;
+
+    &.scroll-home {
+      margin-top: 33px;
+    }
+  }
+
+  &.vi-show-header {
+    margin-top: 83px;
+    overflow: hidden;
+  }
+
+  &.vi-show-header-minimized {
+    margin-top: 32px;
+  }
+
+  &.vi-has-bottom-menu {
+    margin-bottom: 56px;
+  }
+
+  &.scroll-home {
+    ::ng-deep {
+      .vi-header-image-white {
+        display: none;
+      }
+
+      .vi-header-image-scroll {
+        bottom:0;
+      }
+
+      .vi-shrink-home {
+        .vi-header-search-form {
+          top: 147.5px !important;
+        }
+      }
+    }
+  }
+}
+
+/deep/ .vi-header-image-white {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  margin: 80px auto 10px;
+  border: 1px solid #FFF;
+  padding: 7.5px 10px;
+  width: 260px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+/deep/ .vi-header-image-scroll {
+  position: fixed; bottom:-100%; left:0; z-index: 3;
+  width:100%;
+}

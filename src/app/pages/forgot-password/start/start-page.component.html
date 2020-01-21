@@ -1,0 +1,31 @@
+<div class="vi-form-page">
+    <div class="vi-form-page-header">
+        <h1 class="vi-title h3">Reset Password</h1>
+        <div class="vi-description">Password reset instructions will be sent to your registered email address.</div>
+    </div>
+    <div class="vi-form-page-body">
+        <viidia-alert></viidia-alert>
+
+        <form [formGroup]="forgotPasswordForm" (ngSubmit)="onSubmit()" *ngIf="!sendResetPassSuccessfully">
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" placeholder="Username / Email" required class="form-control" id="username"
+                           name="username" formControlName="username" />
+
+                </div>
+            </div>
+            <div class="form-group">
+                <re-captcha site_key="6LcQ1QQTAAAAAJvAKOA9f3wL-afK0m24qk-s8I2M"
+                            (captchaResponse)="handleCorrectCaptcha($event)"
+                            (captchaExpired)="recaptchaSuccessfully = false"></re-captcha>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary vi-full-control" type="submit"
+                        [disabled]="!forgotPasswordForm.valid || !recaptchaSuccessfully">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true" *ngIf="isLoading"></i>
+                    Reset Password
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

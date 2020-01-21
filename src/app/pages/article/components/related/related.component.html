@@ -1,0 +1,34 @@
+<div class="vi-related-articles">
+    <h3 class="vi-header text-center h4" [ngStyle]="{'color': article.category.color}" *ngIf="showHeader">
+        You Might Also Like
+    </h3>
+
+    <div class="vi-articles">
+        <div class="vi-articles-wrapper" *ngFor="let article of relatedArticles; let index = index">
+            <div class="vi-article">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <a title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]" *ngIf="!article.videoHtml">
+                            <div class="vi-article-image"
+                                 [ngStyle]="{'background-image': 'url(' + article.image + ')'}"></div>
+                        </a>
+                        <div *ngIf="article.image && article.videoHtml" class="vi-article-image"
+                             [ngStyle]="{'background-image': 'url(' + article.image + ')'}">
+                            <div *ngIf="article.videoHtml" class="vi-video-play" (click)="videoPlayerService.showVideoPlayer(article.videoHtml)">
+                                <span class="glyphicon glyphicon-play"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-7 vi-article-info">
+                        <h4 class="h5 vi-article-name">
+                            <a title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                                {{stringUtilities.substr(article.name)}}
+                            </a>
+                        </h4>
+                        <div class="vi-article-source">{{article.articleSource?.name}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

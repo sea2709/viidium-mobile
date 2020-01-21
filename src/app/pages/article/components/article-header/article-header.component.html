@@ -1,0 +1,37 @@
+<div class="vi-article-header-info clearfix">
+    <div class="vi-article-thumb pull-left" [ngStyle]="{'background-image': 'url(' + article.image + ')'}"></div>
+    <div class="vi-article-title pull-left"><h5 class="h6">{{article.name}}</h5></div>
+    <div class="pull-right vi-more">
+        <article-actions [article]="article"></article-actions> 
+        
+        <div class="vi-social-shares">
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                    <li>
+                        <a md-raised-button shareButton="facebook">
+                            <i class="fa fa-facebook"></i>
+                            Facebook
+                        </a>
+                    </li>
+                    <li>
+                        <a md-raised-button shareButton="twitter">
+                            <i class="fa fa-twitter"></i>
+                            Twitter
+                        </a>
+                    </li>
+                    <li>
+                        <a md-raised-button href="mailto:?to=&subject=Viidia - {{article.name}}&body={{doc.location.href}}">
+                            <i class="fa fa-envelope"></i>
+                            E-Mail
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>  
+                   
+    </div>
+</div>
+

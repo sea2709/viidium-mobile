@@ -1,0 +1,50 @@
+<div class="vi-header-image-white"><img src="assets/images/header-images/featured-white.png" alt="Featured"></div>
+
+<div class="vi-header-image-scroll vi-menu-bottom-bar">
+    <a [routerLink]="['/']" title="Viidium">
+        <i class="fa fa-home"></i>
+        <div class="vi-ic-text">Home</div>
+    </a>
+
+    <a [routerLink]="['/trending']" title="Trending">
+        <div class="vi-icon-trending"></div>
+        <div class="vi-ic-text">Trending</div>
+    </a>
+
+    <a [routerLink]="['/videos']" title="Videos">
+        <div class="vi-icon-video"></div>
+        <div class="vi-ic-text">Videos</div>
+    </a>
+
+    <a [routerLink]="['/photos']" title="Photos">
+        <div class="vi-icon-photo"></div>
+        <div class="vi-ic-text">Photos</div>
+    </a>
+
+    <a (click)="headerService.toggleSearch()">
+        <i class="fa fa-search"></i>
+        <div class="vi-ic-text">Search</div>
+    </a>
+</div>
+
+<ul class="vi-articles" *ngIf="articles">
+    <li *ngFor="let article of articles; first as isFirst" class="vi-article">
+        <div class="vi-article-wrapper" [ngClass]="{'vi-first': isFirst}" (click)="gotoArticleDetails($event, article)"
+             [ngStyle]="{'background-image': 'url(' + (article.image ? article.image : '') + ')'}">
+            <div class="vi-article-info-wrapper" [ngStyle]="{'border-bottom': '15px solid ' + (article.category ? article.category.alphaColor : '#305e6c')}">
+                <div *ngIf="canFeatured()" (click)="toggleFeatured(article)">Remove</div>
+                <h2 class="vi-article-title h4">
+                    <a  (click)="viewArticleDetails()"
+                        title="{{article.name}}" [routerLink]="['/article', article.id, article.name | slugify]">
+                        {{stringUtilities.substr(article.name, 60)}}
+                    </a>
+                </h2>
+                <div class="vi-article-source">{{article.articleSource?.name}}</div>
+                <div *ngIf="article.videoHtml" class="vi-video-play-btn"
+                     (click)="videoPlayerService.showVideoPlayer(article.videoHtml)">
+                    <span class="glyphicon glyphicon-play"></span>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
