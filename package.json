@@ -33,7 +33,7 @@
     "font-awesome": "^4.7.0",
     "imagesloaded": "^4.1.4",
     "intl": "^1.2.5",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "masonry-layout": "^4.2.1",
     "moment": "^2.22.2",
     "ng-masonry-grid": "^1.2.5",
