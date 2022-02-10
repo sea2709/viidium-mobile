@@ -44,7 +44,7 @@
     "ngx-loading": "^1.0.14",
     "ngx-pagination": "^3.0.3",
     "ngx-sharebuttons": "^3.0.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
     "slick-carousel": "^1.8.1",
